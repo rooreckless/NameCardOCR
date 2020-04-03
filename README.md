@@ -23,13 +23,14 @@ Things you may want to cover:
 |password|string|null: false|
 
 ## Association
-has_many :namecards
+has_many :cards
 
 ## cardテーブル
 |Column|Type|Options|
 |------|----|-------|
 |name|string|null: false|
 |company|string|null: false|
+|department|string||
 |address|string||
 |tel|string||
 |email|string||
@@ -47,10 +48,10 @@ has_many :episodes
 |content|text|null: false|
 |when|string||
 |where|string||
-|namecard_id|integer|null:false, foreign_key: true|
+|card_id|integer|null:false, foreign_key: true|
 
 ## Association
-belongs_to : namecard
+belongs_to : card
 
 * How to run the test suite
 
