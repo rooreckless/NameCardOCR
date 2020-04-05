@@ -1,0 +1,14 @@
+episode#show
+<%=form_with model: @episode ,class:"showepisode__form",id:"#",local: true ,method: :patch ,url:  card_episode_path(@episode.id) do |f|%>
+      <%=f.label :どんなやりとりをこの人としましたか？,class:"showepisode__form"%>
+      <%=f.text_area :content,class:"showepisode__form showepisode__form--readonly",size: "20x20",style:"resize: none;",value:@episode.content,readonly: true%>
+      <%=f.label :いつ,class:"showepisode__form"%>
+      <%=f.date_field :when,class:"showepisode__form date-picker showepisode__form--readonly",value:@episode.when,readonly: true%>
+      <%=f.label :どこで,class:"showepisode__form"%>
+      <%=f.text_area :where,class:"showepisode__form showepisode__form--readonly", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;",value:@episode.where,readonly: true%>
+      <br>
+      <%=f.submit "このやり取りを更新する",id:"showepisode__form__updatebtn",class:"showepisode__form",style:"display:none;"%>
+    <%end%>
+    <button id="showepisode__startedit">このやり取りを編集したい</button>
+    <button id="showepisode__rebertedit" style="display:none;">編集を適用せず、戻る</button>
+    <%= link_to 'Destroy', card_episode_path(@episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' } %>

@@ -66,3 +66,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'google-cloud-language', '~> 0.36.0'
 gem 'jquery-rails'
 gem 'devise'
+gem 'font-awesome-sass'

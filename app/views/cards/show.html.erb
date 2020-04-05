@@ -1,0 +1,50 @@
+<div class="showcard_outer">
+  <div class="showcard_left">
+    名刺の内容を表示します。
+    <table border="2" class="showcard_left__table">
+    <tr><th colspan="2">名刺の内容</th></tr>
+    <tr><td class="showcard_left__table__left">名前</td><td><%=@card.name%></td></tr>
+    <tr><td class="showcard_left__table__left">会社名</td><td><%=@card.company%></td></tr>
+    <tr><td class="showcard_left__table__left">部署名</td><td><%=@card.department%></td></tr>
+    <tr><td class="showcard_left__table__left">住所</td><td><%=@card.address%></td></tr>
+    <tr><td class="showcard_left__table__left">TEL</td><td><%=@card.tel%></td></tr>
+    <tr><td class="showcard_left__table__left">mail</td><td><%=@card.email%></td></tr>
+    </table>
+    <hr>
+    <p>下の欄に記入して、この人とのやり取りを新たに作成します</p>
+    <%=form_with model: @episode ,class:"showcard_left__form",id:"#",local: true ,method: :post ,url:  card_episodes_path(@card.id) do |f|%>
+      <%=f.label :どんなやりとりをこの人としましたか？,class:"showcard_left__form"%>
+      <%=f.text_area :content,class:"showcard_left__form",size: "20x20",style:"resize: none;"%>
+      <%=f.label :それはいつのできごとですか？,class:"showcard_left__form"%>
+      <%=f.date_field :when,class:"showcard_left__form date-picker"%>
+      <%=f.label :それはどこで行いましたか？,class:"showcard_left__form"%>
+      <%=f.text_area :where,class:"showcard_left__form", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;"%>
+      <br>
+      <%=f.submit "この人とのやり取りを新たに追加する",class:"showcard_left__form" %>
+    <%end%>
+  </div>
+  <div class="showcard_right">
+  いままでの <%=@card.name%> さんとのやりとり
+  <%@episodes.each do |episode| %>
+  <div class="showcard_right__episode">
+    <%=episode.content[0..9]%>
+    <%=episode.when%>
+    <%=episode.card.user.nickname%>
+    
+    <div class="showcard_right__episode__more">
+      <i class="fas fa-angle-down showcard_right__episode__more"></i>
+      <ul class="showcard_right__episode__more__list">
+      <li>
+        <%= link_to '詳細', "/cards/#{@card.id}/episodes/#{episode.id}", method: :get %>
+      </li>
+      <% if user_signed_in? && current_user.id == episode.card.user.id %>
+        <li>
+          <%= link_to '削除', card_episode_path(episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' } %>
+        </li>
+      <% end %>
+    </ul>
+    </div>
+  </div>
+  <% end %>
+  </div>
+</div>
