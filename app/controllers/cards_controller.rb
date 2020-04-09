@@ -1,10 +1,29 @@
 class CardsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:top]
   def top
 
   end
   def index
-    @cards = Card.includes(:user).order("created_at DESC")
+    @cards = Card.includes(:user).where(user_id: current_user.id).order("created_at DESC")
+    puts @cards
+    puts @cards.length
+  end
+  def searchnormalform
+
+  end
+  def searchnormaltext
+    #puts params #=>params[:name],〜params[:email]
+    # @cards=Card.where("name like ?", "%#{params[:name]}%")
+    # 上は氏名の曖昧検索です。
+    # @cards=Card.where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%")
+    # 上の「where名前あいまい.where会社あいまい」あいまいand検索あいまいになります。
+    #また、「where名前あいまい.where会社あいまい」の「名前だけ」検索しても大丈夫です。
+    @cards=Card.where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
+    puts "-----searchnormaltext----"
+    puts @cards
+    puts @cards.length
+    # binding.pry
+    
   end
   def searchcamera
     puts "----searchcamera----"
@@ -26,9 +45,9 @@ class CardsController < ApplicationController
       # puts "i=#{i}, #{params[:test][i]}, params[:test][i].ord = #{params[:test][i].ord}"
       temp_sum+=params[:test][i].ord
     end
-    # temp_sumは検索用の文字列の先頭から70文字の文字コードを足しこんだものです。これの+-40000の範囲で、cardモデルのapiresulthash値で検索して@cardsとします。
+    # temp_sumは検索用の文字列の先頭から70文字の文字コードを足しこんだものです。これの+-20000の範囲で、cardモデルのapiresulthash値で検索して@cardsとします。
     # 現状はログインユーザと、そのカードを登録したユーザが一致していることも条件に含め増す。
-    @cards=Card.where(apiresulthash: (temp_sum - 40000)..(temp_sum + 40000)).where(user_id: current_user.id)
+    @cards=Card.where(apiresulthash: (temp_sum - 20000)..(temp_sum + 20000)).where(user_id: current_user.id)
   end
   def createajax
     require 'google/cloud/language' #APIを使う
@@ -171,7 +190,11 @@ class CardsController < ApplicationController
     # 上のforループでapiからのOCR結果の文字中の70文字を文字コードに変えた値を足し込み、params[:apiresulthash]としてdbに保存します。
     params[:apiresulthash]=temp_sum
     @card = Card.new(card_params)
-    @card.save
+    if @card.save
+      redirect_to card_path(@card.id)
+    else
+      redirect_to newcamera_path
+    end
   end
   def show
     @card=Card.find(params[:id])
@@ -180,9 +203,28 @@ class CardsController < ApplicationController
     # 下では、名刺1つに対するエピソードを、「ユーザが設定した「いつ」の降順」になるようにしています。(created_at順ではないです。)
     @episodes=Episode.where(card_id: params[:id]).order(when: "DESC")
   end
-
+  def update
+    @card=Card.find(params[:id])
+    if @card.update(update_params)
+      redirect_to card_path(@card.id) and return
+    else
+      redirect_to card_path(@card.id) and return
+    end
+  end
+  def destroy
+    card=Card.find(params[:id])
+    # binding.pry
+    if current_user.id != card.user_id
+      redirect_to root_path
+    end
+    card.destroy
+    redirect_to cards_path
+  end
   private
   def card_params 
     params.permit(:name, :company, :department, :address, :tel,:email,:apiresulttext,:apiresulthash).merge(user_id: current_user.id)
+  end
+  def update_params 
+    params.require(:card).permit(:name, :company, :department, :address, :tel,:email).merge(user_id: current_user.id)
   end
 end

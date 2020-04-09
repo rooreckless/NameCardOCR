@@ -1,0 +1,70 @@
+.searchnormform-outer{
+  background-color: $backLightGray;
+  height:calc(100vh - 150px);
+  padding: 0 50px 0 50px;
+  .searchnormform-inner{
+    background-color: $mainWhite;
+    height:calc(100vh - 150px);
+    width:100%;
+    margin:0 auto;
+    &__form{
+      // display:flex;
+      // justify-content:flex-start;
+      border:1px solid black;
+      padding:0 10px;
+      &__row{
+        display:flex;
+        justify-content:space-around;
+        margin-top:5px;
+        &--label{
+          // display:block;
+          width:30%
+        }
+        &--input{
+          width:70%;
+        }
+      }
+      &__btns{
+        text-align: center;
+       margin-top:5px; 
+        #card__normalsearchstartbtn{
+          border-style: none;
+          width:50%;
+          border:1px solid $mainBlue;
+          border-radius:5px;
+          color:$mainBlue;
+          &:hover{
+            color:$btnOrange;
+            border-color:$btnOrange;
+          }
+        }
+      }
+    }
+    &__results{
+      overflow:scroll;
+      &__row{
+        display:flexbox;
+        justify-content: flex-start;
+        &--title{
+          margin-top:5px;
+          text-align: center;
+        }
+        &--number{
+          width:30px;
+          margin-left:5px;
+        }
+        &--link{
+          border:1px solid $mainBlue;
+          border-radius:5px;
+          font-size:0.8em;
+          padding:5px;
+          color:$mainBlue;
+          &:hover{
+            color:$btnOrange;
+            border-color:$btnOrange;
+          }
+        }
+      }
+    }
+  }
+}

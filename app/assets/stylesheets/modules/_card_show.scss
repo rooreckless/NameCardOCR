@@ -1,36 +1,105 @@
 .showcard_outer{
-  border:3px green solid;
   width:100%;
-  height:80vh;
+  height:calc(100vh - 150px);
   display:flex;
   justify-content: space-evenly;
+  background-color: $backLightGray;
+  padding-left: 50px;
+  padding-right:50px;
   .showcard_left{
-    border:1px red solid;
-    width:40%;
-    &__table{
-      width:90%;
-      margin:5px 10px 10px;
-      &__left{
-        width:30%;
+    border-right:1px black solid;
+    width:50%;
+    background-color:$mainWhite;
+    &__cardform{
+      display:block;
+      border-top:1px solid black;
+      border-bottom:1px solid black;
+      &__row{
+        display:flex;
+        justify-content: space-around;
+        padding:2px 30px 2px 30px;
+        &--label{
+          width:50%;
+          border:1px solid $backLightGray;
+        }
+        &--input{
+          width:50%;
+        }
+      }
+      &__btns{
+        display: flex;
+        justify-content: space-evenly;
+        #card__startedit,#card__rebertedit,#card__destroybtn{
+          // width:33%;
+          color:$mainBlue;
+          border:1px solid $mainBlue;
+          border-radius: 5px;
+          margin:0 10px 0 10px;
+          font-size:0.8em;
+          &:hover{
+            color:$btnOrange;
+            border:1px solid $btnOrange;
+          }
+        }
+        #card__updatebtn,#card__rebertedit{
+          visibility:hidden;
+        }
+        #card__updatebtn{
+          border-style: none;
+          border:1px solid red;
+          border-radius: 5px;
+          animation: color-change 3s linear infinite;
+        }
+        @keyframes color-change {
+          0%,100%{
+            color:black;
+          }
+        
+          50%{
+            color:red;
+          }
+          
+        }
       }
     }
-    &__form{
+    &__episodeform{
       display:block;
       width:90%;
       margin-left:10px;
     }
   }
   .showcard_right{
-    border:1px blue solid;
-    width:60%;
+    background-color:$mainWhite;
+    width:50%;
+    overflow:scroll;
     &__episode{
       display:flex;
-      justify-content: space-evenly;
+      justify-content: flex-start;
       &__more:hover > ul{
         display:block;
       }
       &__more > ul{
         display:none;
+      }
+      &--index{
+        width:50px;
+        display:block;
+        margin-left: 10px;
+        margin-top:2px;
+      }
+      &--contenthead,&--when,&--nickname{
+        margin-left: 10px;
+        margin-top:2px;
+      }
+      &--contenthead{
+        width:250px;
+      }
+      &--when{
+        width:100px;
+      }
+      &--nickname{
+        width:100px;
+        margin-right:10px;
       }
     }
   }

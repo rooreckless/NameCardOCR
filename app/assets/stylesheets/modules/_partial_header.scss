@@ -1,0 +1,28 @@
+.partial__header{
+  display:flex;
+  justify-content: space-between;
+  height:100px;
+  background-color:$mainBlue;
+  &__left{
+    font-size:30px;
+    line-height:100px;
+    margin-left:10px;
+  }
+  
+  &__right{
+    color:$mainWhite;
+    font-size:20px;
+    line-height:100px;
+    margin-right:10px;
+  }
+  
+}
+.devisepartial__header{
+  text-align: center;
+  height:100px;
+  background-color:$mainBlue;
+  color:$mainWhite;
+  font-size:30px;
+  line-height:100px; 
+}
+  

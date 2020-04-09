@@ -1,6 +1,14 @@
 @import "reset";
+@import "config/variable";
+@import "config/linkConfig";
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
+@import "modules/devise";
+@import "modules/card_top";
+@import "modules/card_index";
 @import "modules/card_show";
-@import "modules/card_newcamera";
-@import "modules/card_searchcamera";
+@import "modules/card_searchnormalform";
+@import "modules/episode_show";
+@import "modules/card_newcamerasearchcamera";
+@import "modules/partial_header";
+@import "modules/partial_footer";

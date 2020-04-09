@@ -1,0 +1,68 @@
+= render 'partial/header'
+.showcard_outer
+  .showcard_left
+    名刺の内容
+    =form_with model: @card ,class:"showcard_left__cardform",id:"#",local: true,url: {controller: 'cards', action: 'update' } do |f|
+      .showcard_left__cardform__row
+        =f.label :名前,class:"showcard_left__cardform__row--label"
+        =f.text_field :name,class:"showcard_left__cardform__row--input",value:@card.name,readonly:"true"
+      .showcard_left__cardform__row
+        =f.label :会社名,class:"showcard_left__cardform__row--label"
+        =f.text_field :company,class:"showcard_left__cardform__row--input",value:@card.company,readonly:"true"
+      .showcard_left__cardform__row
+        =f.label :部署名,class:"showcard_left__cardform__row--label"
+        =f.text_field :department,class:"showcard_left__cardform__row--input",value:@card.department,readonly:"true"
+      .showcard_left__cardform__row
+        =f.label :住所,class:"showcard_left__cardform__row--label"
+        =f.text_field :address,class:"showcard_left__cardform__row--input",value:@card.address
+      .showcard_left__cardform__row
+        =f.label :電話番号,class:"showcard_left__cardform__row--label"
+        =f.text_field :tel,class:"showcard_left__cardform__row--input",value:@card.tel
+      .showcard_left__cardform__row
+        =f.label :メールアドレス,class:"showcard_left__cardform__row--label"
+        =f.text_field :email,class:"showcard_left__cardform__row--input",value:@card.email
+      .showcard_left__cardform__btns
+        =f.submit "名刺データを更新",id:"card__updatebtn",class:"showcard_left__cardform--submitbtn"
+        #card__startedit この名刺を編集したい
+        #card__rebertedit 編集を適用せず、戻る
+        = link_to 'この名刺を削除する', card_path(@card.id), method: :delete, data: { confirm: '本当にこの名刺を削除しますか？' },id:"card__destroybtn"
+    
+    %hr
+    %p 下の欄に記入して、この人との「エピソード」を新たに作成します
+    %hr
+    = form_with model: @episode ,class:"showcard_left__episodeform",id:"#",local: true ,method: :post ,url:  card_episodes_path(@card.id) do |f|
+      = f.label :どんなやりとりをこの人としましたか？,class:"showcard_left__episodeform"
+      = f.text_area :content,class:"showcard_left__episodeform",size: "20x20",style:"resize: none;"
+      = f.label :それはいつのできごとですか？,class:"showcard_left__episodeform"
+      = f.date_field :when,class:"showcard_left__episodeform date-picker"
+      = f.label :それはどこで行いましたか？,class:"showcard_left__episodeform"
+      = f.text_area :where,class:"showcard_left__episodeform", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;"
+      %br/
+      = f.submit "この人とのやり取りを新たに追加する",class:"showcard_left__episodeform"
+  .showcard_right
+    いままでの #{@card.name} さんとのエピソード (全#{@episodes.length}件)
+    %hr
+    = form_with id:"#",local: true do |f|
+      .showcard_right__episode
+        = f.text_field :episodesindex,class: "showcard_right__episode--index",value: "番号",readonly: true
+        = f.text_field :episodescontenthead,class: "showcard_right__episode--contenthead",value: "内容(最初の10文字)",readonly: true
+        = f.text_field :episodeswhen,class: "showcard_right__episode--when",value: "いつか",readonly: true
+        = f.text_field :episodesnickname,class: "showcard_right__episode--when",value: "作成者",readonly: true
+        .showcard_right__episode__more
+      %hr
+      - @episodes.each_with_index do |episode,index|
+        .showcard_right__episode
+          = f.text_field :episodesindex,class: "showcard_right__episode--index",value: "#{index+1}",readonly: true
+          = f.text_field :episodescontenthead,class: "showcard_right__episode--contenthead",value: episode.content[0..9],readonly: true
+          = f.text_field :episodeswhen,class: "showcard_right__episode--when",value: episode.when,readonly: true
+          = f.text_field :episodesnickname,class: "showcard_right__episode--nickname",value: episode.card.user.nickname,readonly: true
+          .showcard_right__episode__more
+            %i.fas.fa-angle-down.showcard_right__episode__more
+            %ul.showcard_right__episode__more__list
+              %li
+                = link_to '詳細', "/cards/#{@card.id}/episodes/#{episode.id}", method: :get
+              - if user_signed_in? && current_user.id == episode.card.user.id
+                %li
+                  = link_to '削除', card_episode_path(episode.id), method: :delete, data: { confirm: '本当にこのエピソードを削除しますか？' }
+        %hr
+= render 'partial/footer'

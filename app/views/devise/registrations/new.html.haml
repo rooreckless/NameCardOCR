@@ -1,0 +1,29 @@
+= render 'partial/devise_header'
+.devise_outer
+  .devise_body
+    %h2.devise_body__signup--title 新規ユーザ登録
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = render "devise/shared/error_messages", resource: resource
+      .field.devise_body__signup--nickname
+        = f.label "ニックネーム"
+        %br/
+        = f.text_field :nickname, autofocus: true
+      .field.devise_body__signup--mailaddress
+        = f.label "メールアドレス"
+        %br/
+        = f.email_field :email, autofocus: true, autocomplete: "email"
+      .field.devise_body__signup--password
+        = f.label "パスワード"
+        - if @minimum_password_length
+          %em
+            (#{@minimum_password_length} 文字以上)
+        %br/
+        = f.password_field :password, autocomplete: "new-password"
+      .field.devise_body__signup--password
+        = f.label "パスワード(再入力してください)"
+        %br/
+        = f.password_field :password_confirmation, autocomplete: "new-password"
+      .actions
+        = f.submit "入力内容でユーザ登録します",class:"devise_body--submitbtn"
+    = render "devise/shared/links"
+= render 'partial/devise_footer'

@@ -1,0 +1,28 @@
+= render 'partial/header'
+.cardindex_outer
+  .cardindex_body
+    #{current_user.nickname} さんが登録した名刺の一覧です。 (全 #{@cards.length} 件)
+    = form_with id:"#",local: true do |f|
+      .cardindex_body__form
+        .cardindex_body__form__header
+          = f.text_field :cardiid,class: "cardindex_body__form--cardid",value: "",readonly: true
+          = f.text_field :cardname,class: "cardindex_body__form--cardname",value: "名前",readonly: true
+          = f.text_field :cardcompany,class: "cardindex_body__form--cardcompany",value: "会社名",readonly: true
+          = f.text_field :carddepartment,class: "cardindex_body__form--carddepartment",value: "部署名",readonly: true
+          = f.text_field :cardaddress,class: "cardindex_body__form--cardaddress",value: "住所",readonly: true
+          = f.text_field :cardtel,class: "cardindex_body__form--cardtel",value: "TEL",readonly: true
+          = f.text_field :cardmail,class: "cardindex_body__form--cardmail",value: "mail",readonly: true
+      %hr
+        .cardindex_body__form__body
+          - @cards.each do |card|
+            .cardindex_body__form__body__more
+              = f.text_field :cardiid,class: "cardindex_body__form--cardid",value: card.id,readonly: true
+              = f.text_field :cardname,class: "cardindex_body__form--cardname",value: card.name,readonly: true
+              = f.text_field :cardcompany,class: "cardindex_body__form--cardcompany",value: card.company,readonly: true
+              = f.text_field :carddepartment,class: "cardindex_body__form--carddepartment",value: card.department,readonly: true
+              = f.text_field :cardaddress,class: "cardindex_body__form--cardaddress",value: card.address,readonly: true
+              = f.text_field :cardtel,class: "cardindex_body__form--cardtel",value: card.tel,readonly: true
+              = f.text_field :cardmail,class: "cardindex_body__form--cardmail",value: card.email,readonly: true
+              = link_to '詳細', "/cards/#{card.id}", method: :get,class:"cardindex_body__form--link"
+            %hr
+= render 'partial/footer'

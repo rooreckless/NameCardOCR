@@ -1,4 +1,7 @@
-<div class="header"><p>これから名刺の写真を撮影して、名刺のデータを検索します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに「カメラへのアクセスの許可を求め」られた場合は、許可してください。</small></div>
+<%= render 'partial/header' %>
+<div class="searchcamera_outer">
+<div class="searchcamera_body">
+<div class="headmessage"><p>今から<span class="headmessage--red">名刺の写真を撮影して</span>、名刺のデータを検索します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに<span class="headmessage--red">「カメラへのアクセスの許可を求め」られた場合は、許可してください。</span><br>※今から撮影する写真を画像データとして保存することはありません。</small></div>
 <!-- カメラ映像が描画されます。 -->
 <video id="video_area" class="video_area_cls" style="background-color: #000" autoplay></video>
 
@@ -14,35 +17,46 @@
 <button id="drawCanvas" class="capture_image_cls" style="display:none;" onclick="drawCanvas()">この画像で検索する</button>
 <br>
 <button id="rebertpic_btn" class="capture_image_cls" style="display:none;" onclick="rebertpic()">撮影をやりなおしたい</button>
-<p class="capture_image_cls" style="display:none;">こちらの画像から文字を認識します。<br>よろしければ、「この画像を使用する」ボタンをおしてください。<br>別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。 </p>
-<hr class="drawCanvas__after"style="display:none;">
+<p class="capture_image_cls" style="display:none;">こちらの画像から文字を認識して検索します。<br>よろしければ、「この画像で検索する」ボタンをおしてください。<br>別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。 </p>
+<hr class="drawCanvas__after">
 
-<p class="drawCanvas__after"style="display:none;">検索結果を表示します。詳細を確認したい名刺を選択してください。</p>
-<div class="searchresults drawCanvas__after"style="display:none;"></div>
+<p class="drawCanvas__after">検索結果を表示します。詳細を確認したい名刺を選択してください。</p>
+<div class="searchresults drawCanvas__after"></div>
 <script>
     function buildsearchHTML(cards){
-      var returnHTML=``;
+      // 検索結果の件数をreturnHTMLに格納
+      var returnHTML=`<p>検索結果 : ${cards.length}件</p>`;
+      // 検索結果の各列名を格納
+      returnHTML+=`<div class="searchresults__row">
+            <input type="text" class="searchresults__row--name" readonly="true" value="名前">
+            </input>
+            <input type="text" class="searchresults__row--company" readonly="true" value="会社名">
+            </input>
+            <input type="text" class="searchresults__row--department" readonly="true" value="部署名">
+            </input>
+            <input type="text" class="searchresults__row--tel"  readonly="true" value="tel">
+            </input>
+            <input type="text" class="searchresults__row--email"  readonly="true" value="mail">
+            </input>
+            <div class="searchresults__row--goshowcard">
+              
+            </div>
+      </div>`;
       for (var i=0;i<cards.length;i++){
-      returnHTML+=
-      `<div class="searchresults__row">
-            <div class="searchresults__row--name">
-              ${cards[i].name}
-            </div>
-            <div class="searchresults__row--company">
-              ${cards[i].company}
-            </div>
-            <div class="searchresults__row--department">
-              ${cards[i].department}
-            </div>
-            <div class="searchresults__row--tel">
-              ${cards[i].tel}
-            </div>
-            <div class="searchresults__row--email">
-              ${cards[i].email}
-            </div><div class="searchresults__row--goshowcard">
-              ${cards[i].email}
-              <a href="/cards/${cards[i].id}">この方の詳細を確認する</a>
-            </div>
+      
+      returnHTML+=`<div class="searchresults__row">
+            <input type="text" class="searchresults__row--name" readonly="true" value=${cards[i].name}>
+            </input>
+            <input type="text" class="searchresults__row--company" readonly="true" value=${cards[i].company}>
+            </input>
+            <input type="text" class="searchresults__row--department" readonly="true" value=${cards[i].department}>
+            </input>
+            <input type="text" class="searchresults__row--tel" readonly="true" value=${cards[i].tel}>
+            </input>
+            <input type="text" class="searchresults__row--email" readonly="true" value=${cards[i].email}>
+            </input>
+            
+            <a href="/cards/${cards[i].id}" class="searchresults__row--goshowcard">詳細確認</a>
       </div>`;
       }
       console.log("returnHTML");
@@ -102,6 +116,7 @@
         // $('#capture_image').css('display','none');
         $('.drawCanvas__after').css('display','none');
         $('.drawCanvas__after__form').css('display','none');
+        $('.searchresults').html('');
     }
     function drawCanvas(){
       // 使用する写真が決定したときの挙動
@@ -139,7 +154,7 @@
       // ajax通信完了後ですが、条件分岐します。
       $('#base64result').css('display','');
       $('#base64result').text(data.hashdescription);
-      $('.drawCanvas__after').css('display','');
+      $('.drawCanvas__after').css('display','block');
       $('.drawCanvas__after__form').css('display','block');
       $('#drawCanvas').css('display','none');
 
@@ -158,7 +173,7 @@
       .done(function(data){
         console.log(data);
         console.log(data.cards);
-        // console.log(data.cards.length);
+        console.log(data.cards.length);
         // console.log(data.cards[0]);
         // searchajax.json.jbuilderより、data.cardsが検索結果のカード達になります。
         console.log("--done2--");
@@ -170,29 +185,13 @@
         alert("error search");
       });
       
-      // $.ajax({
-      // url: '/onlytest',
-      // type: "GET",
-      // // data: {test:data.basepic},
-      // dataType: 'html',
-      // }).done(function(){})
-      // .fail(function(){});
-      
-      //indexへ飛ぶ 
-      //前にためしに?でパラメータを作ってみる
-      //var param = "?aaa"
-      // location.href = '/onlytest'+param;
-      // window.location.href = '/onlytest'+param;だったらparamがでないけどlocationだったらでた。
-      
-      // $.post( '/testpost', 'name=太郎' );
-
-      // var form=new FormData;
-      // form.action='/testpost';
-      // form.method ='POST'
-      // form.submit();
     }).fail(function(){
-      alert("error");
+      alert("エラーが発生しました。画像から文字を全く認識できなかった可能性があります。このメッセージの後、再度このページを再読み込みします。");
+      location.reload();
     });
     }
 
 </script>
+</div>
+</div>
+<%= render 'partial/footer' %>

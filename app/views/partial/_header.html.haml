@@ -1,0 +1,12 @@
+.partial__header
+  .partial__header__left
+    = link_to "NameCardOCR",root_path,class:"linkWhite"
+  .partial__header__right
+    ユーザ名 :
+    -if user_signed_in?
+      =current_user.nickname
+      = link_to "ログアウト", destroy_user_session_path, method: :delete
+    -else
+      ログインしていません
+      = link_to 'ログインする',new_user_session_path
+    =link_to 'このアプリの使い方',"#"

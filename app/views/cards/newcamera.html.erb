@@ -1,9 +1,10 @@
-<div class="header"><p>これから名刺の写真を撮影して、名刺のデータを登録します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに「カメラへのアクセスの許可を求め」られた場合は、許可してください。</small></div>
+<%= render 'partial/header' %>
+<div class="newcamera_outer">
+<div class="newcamera_body">
+<div class="headmessage"><p>今から<span class="headmessage--red">名刺の写真を撮影して</span>、名刺のデータを登録します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに<span class="headmessage--red">「カメラへのアクセスの許可を求め」られた場合は、許可してください。</span><br>※今から撮影する写真を画像データとして保存することはありません。</small></div>
+
 <!-- カメラ映像が描画されます。 -->
 <video id="video_area" class="video_area_cls" style="background-color: #000" autoplay></video>
-
-<!-- 押下するとカメラ映像描画を開始します。 -->
-<!--<button id="start_btn">映像表示開始</button>-->
 
 <!-- 押下するとカメラ映像から静止画をキャプチャします。 -->
 <button id="video_area_btn" class="video_area_cls" onclick="copyFrame()">撮影 します</button>
@@ -14,39 +15,41 @@
 <button id="drawCanvas" class="capture_image_cls" style="display:none;" onclick="drawCanvas()">この画像を使用する</button>
 <br>
 <button id="rebertpic_btn" class="capture_image_cls" style="display:none;" onclick="rebertpic()">撮影をやりなおしたい</button>
-<p class="capture_image_cls" style="display:none;">こちらの画像から文字を認識します。<br>よろしければ、「この画像を使用する」ボタンをおしてください。<br>別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。 </p>
-<hr class="drawCanvas__after"style="display:none;">
-<p class="drawCanvas__after" style="display:none;">画像からの文字を認識した結果です。(コピー & ペースト可能です。)</p>
-<textarea name="base64result" class="drawCanvas__after" id="base64result" cols="100" rows="15" style="display:none;resize:none;" readonly="true"></textarea >
-<p class="drawCanvas__after"style="display:none;">下のフォームに入力して頂いて、「名刺データを作成」ボタンを押して保存します。</p>
+<p class="capture_image_cls" style="display:none;">こちらの画像から文字を認識します。<br>よろしければ、<span class="capture_image_cls--red">「この画像を使用する」ボタン</span>をおしてください。<br>別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。 </p>
+<hr class="drawCanvas__after">
+<p class="drawCanvas__after">こちらが<span class="drawCanvas__after--red">画像からの文字を認識した結果</span>です。(コピー & ペースト可能です。)</p>
+<small class="drawCanvas__after">※こちらの認識結果のテキストデータを画像の代わりに保存いたします。</small>
+<textarea name="base64result" class="drawCanvas__after drawCanvas__after__textarea" id="base64result" cols="100" rows="15" readonly="true"></textarea >
+
+<p id="drawCanvas__after--message" class="drawCanvas__after"><span class="drawCanvas__after--red">下の欄に書き写してください。</span>この内容で、「名刺データを作成」ボタンを押して保存します。</p>
 <%=form_with model: @card ,class:"drawCanvas__after drawCanvas__after__form",id:"#",local: true,url: {controller: 'cards', action: 'createdata' } do |f|%>
 <div class="drawCanvas__after drawCanvas__after__form__row">
-<%=f.label :名前,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.text_field :name,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;", placeholder:"名前を入力"%>
+<%=f.label :名前,class:"drawCanvas__after drawCanvas__after__form--label"%>
+<%=f.text_field :name,class:"drawCanvas__after drawCanvas__after--input", placeholder:"名前を入力"%>
 </div>
 <div class="drawCanvas__after drawCanvas__after__form__row">
-<%=f.label :会社名,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.text_field :company,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;", placeholder:"会社名を入力"%>
+<%=f.label :会社名,class:"drawCanvas__after drawCanvas__after__form--label"%>
+<%=f.text_field :company,class:"drawCanvas__after drawCanvas__after--input", placeholder:"会社名を入力"%>
 </div>
 <div class="drawCanvas__after drawCanvas__after__form__row">
-<%=f.label :部署名,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.text_field :department,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;", placeholder:"部署名を入力"%>
+<%=f.label :部署名,class:"drawCanvas__after drawCanvas__after__form--label"%>
+<%=f.text_field :department,class:"drawCanvas__after drawCanvas__after--input", placeholder:"部署名を入力"%>
 </div>
 <div class="drawCanvas__after drawCanvas__after__form__row">
-<%=f.label :住所,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.text_field :address,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;", placeholder:"住所を入力"%>
+<%=f.label :住所,class:"drawCanvas__after drawCanvas__after__form--label"%>
+<%=f.text_field :address,class:"drawCanvas__after drawCanvas__after--input", placeholder:"住所を入力"%>
 </div>
 <div class="drawCanvas__after drawCanvas__after__form__row">
-<%=f.label :電話番号,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.text_field :tel,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;", placeholder:"電話番号を入力"%>
+<%=f.label :電話番号,class:"drawCanvas__after drawCanvas__after__form--label"%>
+<%=f.text_field :tel,class:"drawCanvas__after drawCanvas__after--input", placeholder:"電話番号を入力"%>
 </div>
 <div class="drawCanvas__after drawCanvas__after__form__row">
-<%=f.label :メールアドレス,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.text_field :email,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;", placeholder:"メールアドレスを入力"%>
+<%=f.label :メールアドレス,class:"drawCanvas__after drawCanvas__after__form--label"%>
+<%=f.text_field :email,class:"drawCanvas__after drawCanvas__after--input", placeholder:"メールアドレスを入力"%>
 </div>
-<%=f.hidden_field :apiresulttext,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;",id: "hiddenapiresulttext"%>
-<%=f.hidden_field :apiresulthash,class:"drawCanvas__after drawCanvas__after__form",style:"display:none;"%>
-<%=f.submit "名刺データを作成",class:"drawCanvas__after drawCanvas__after__form",style:"display:none;" %>
+<%=f.hidden_field :apiresulttext,class:"drawCanvas__after drawCanvas__after__form",id: "hiddenapiresulttext"%>
+<%=f.hidden_field :apiresulthash,class:"drawCanvas__after drawCanvas__after__form"%>
+<%=f.submit "名刺データを作成",id:"drawCanvas__after__form--submitbtn",class:"drawCanvas__after" %>
 <%end%>
 <script>
 
@@ -58,15 +61,8 @@
     }
 
     // 操作する画面エレメント変数定義します。
-    const $start = document.getElementById('start_btn');   // スタートボタン
     const $video = document.getElementById('video_area');  // 映像表示エリア
 
-    // 「スタートボタン」を押下したら、getUserMedia を使って映像を「映像表示エリア」に表示してね。
-    // $start.addEventListener('click', () => {
-    //     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    //     .then(stream => $video.srcObject = stream)
-    //     .catch(err => alert(`${err.name} ${err.message}`));
-    // }, false);
     // スタートボタン押下まちでなく、このページが開かれたら(そしてDOMの読み込みが完了したら)カメラが起動します。
     document.addEventListener('DOMContentLoaded', () => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: false })
@@ -85,6 +81,7 @@
         canvas_capture_image.width  = va.videoWidth;
         canvas_capture_image.height = va.videoHeight;
         cci.drawImage(va, 0, 0);  // canvasに『「静止画取得」ボタン』押下時点の画像を描画。
+        // debugger;
         // 撮影確認領域と撮影用ボタンを排除
         $('.video_area_cls').css('display','none');
         // $('.capture_image_cls').css('display','');
@@ -137,41 +134,24 @@
       // processData: false,
       // contentType: false,
     }).done(function(data){
-      // ajax通信完了後ですが、条件分岐します。
-      $('#base64result').css('display','');
+      // ajax通信完了後です。data.hashdescriptionには認識後の文字データが入っています。
+      // フォームを出現させ、認識結果の表示と記入用フォームがでてきます。
+      $('#base64result').css('display','block');
       $('#base64result').text(data.hashdescription);
-      $('.drawCanvas__after').css('display','');
+      $('.drawCanvas__after').css('display','block');
       $('.drawCanvas__after__form').css('display','block');
       $('#drawCanvas').css('display','none');
-
-      // $('#hiddenapiresulttext').attr("value",data.hashdescription);
       $('#hiddenapiresulttext').val(data.hashdescription);
+      
       console.log("----#hiddenapiresulttext-----");
       console.log($('#hiddenapiresulttext').val());
-      // 
-      // $.ajax({
-      // url: '/onlytest',
-      // type: "GET",
-      // // data: {test:data.basepic},
-      // dataType: 'html',
-      // }).done(function(){})
-      // .fail(function(){});
-      
-      //indexへ飛ぶ 
-      //前にためしに?でパラメータを作ってみる
-      //var param = "?aaa"
-      // location.href = '/onlytest'+param;
-      // window.location.href = '/onlytest'+param;だったらparamがでないけどlocationだったらでた。
-      
-      // $.post( '/testpost', 'name=太郎' );
-
-      // var form=new FormData;
-      // form.action='/testpost';
-      // form.method ='POST'
-      // form.submit();
     }).fail(function(){
-      alert("error");
+      alert("エラーが発生しました。画像から文字を全く認識できなかった可能性があります。このメッセージの後、再度このページを再読み込みします。");
+      location.reload();
     });
     }
 
 </script>
+</div>
+</div>
+<%= render 'partial/footer' %>

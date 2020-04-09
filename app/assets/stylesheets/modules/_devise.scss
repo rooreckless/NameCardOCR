@@ -1,0 +1,50 @@
+.devise_outer{
+  width:100%;
+  height:calc(100vh - 150px);
+  background-color:$backGray;
+  .devise_body{
+    width:70%;
+    margin:0 auto;
+    background-color:$backLightGray;
+    text-align: center;
+    &__login, &__signup{
+      &--title{
+        display:inline-block;
+        margin:20px 0 10px 0;
+        font-size: 20px;  
+      }
+      &--mailaddress{
+        display:block;
+        margin:10px 0 10px 0;
+        font-size: 20px;  
+      }
+      &--password{
+        display:block;
+        margin:10px 0 10px 0;
+        font-size: 20px;  
+      }
+      &--nickname{
+        display:block;
+        margin:10px 0 10px 0;
+        font-size: 20px;
+      }
+    }
+    &--link{
+      display:block;
+      margin:10px 0 0 0;
+      font-size: 20px;
+      color:$mainBlack;
+      text-decoration: none;
+      &:hover{
+        color:$mainBlue;
+      }
+    }
+    &--submitbtn{
+      width:200px;
+      font-size:30px;
+      &:hover{
+        color:$mainBlue;
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+= render 'partial/header'
+.episode_outer
+  %h3 エピソードの詳細
+  .episode_inner
+    = form_with model: @episode ,class:"episode_inner__form",id:"#",local: true ,method: :patch ,url:  card_episode_path(@episode.card_id,@episode.id) do |f|
+      = f.label :内容,class:"episode_inner__form"
+      = f.text_area :content,class:"episode_inner__form episode_inner__form--content episode_inner__form--readonly",size: "20x20",style:"resize: none;",value:@episode.content,readonly: true
+      = f.label :いつ,class:"episode_inner__form"
+      = f.date_field :when,class:"episode_inner__form episode_inner__form--when date-picker episode_inner__form--readonly",value:@episode.when,readonly: true
+      = f.label :場所,class:"episode_inner__form"
+      = f.text_area :where,class:"episode_inner__form episode_inner__form--where episode_inner__form--readonly", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;",value:@episode.where,readonly: true
+      %br/
+      = f.submit "このやり取りを更新する",id:"episode_inner__form__updatebtn",class:"episode_inner__form",style:"display:none;"
+    .episode_inner__btns
+      #episode_inner__startedit このエピソードを編集したい
+      #episode_inner__rebertedit 編集を適用せず、戻る
+      = link_to 'このエピソードを削除する', card_episode_path(@episode.card_id,@episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' },id:"episode_inner__destroybtn"
+= render 'partial/footer'
