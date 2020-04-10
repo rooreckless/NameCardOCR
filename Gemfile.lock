@@ -273,6 +273,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   bootsnap (>= 1.1.0)
   byebug
   capybara (>= 2.15)

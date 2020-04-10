@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :cards
-  has_many :episodes
+  has_many :cards,dependent: :destroy
+  has_many :episodes,dependent: :destroy
+  # ユーザとカード、エピソードとはそれぞれ1対多関係。かつユーザが消えたら、従属テーブルからもレコードが消えるよう設定。
   validates :nickname ,presence: true
 end

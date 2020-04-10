@@ -1,7 +1,7 @@
 class CardsController < ApplicationController
   before_action :authenticate_user!, except: [:top]
   def top
-
+    # binding.pry
   end
   def index
     @cards = Card.includes(:user).where(user_id: current_user.id).order("created_at DESC")
