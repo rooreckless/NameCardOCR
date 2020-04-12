@@ -1,7 +1,7 @@
 class EpisodesController < ApplicationController
   def create
     puts params
-    # binding.pry
+    binding.pry
     episode=Episode.new(episode_params)
     episode.save
     redirect_to card_path(params[:card_id])
@@ -34,9 +34,9 @@ class EpisodesController < ApplicationController
   end
   private
   def episode_params 
-    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id)
+    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id).merge(group_id: current_user.belonging_group_id)
   end
   def update_params 
-    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id)
+    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id).merge(group_id: current_user.belonging_group_id)
   end
 end

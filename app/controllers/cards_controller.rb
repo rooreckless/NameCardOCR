@@ -189,7 +189,7 @@ class CardsController < ApplicationController
     # puts "temp_sum = #{temp_sum}"
     # 上のforループでapiからのOCR結果の文字中の70文字を文字コードに変えた値を足し込み、params[:apiresulthash]としてdbに保存します。
     params[:apiresulthash]=temp_sum
-    binding.pry
+    # binding.pry
     @card = Card.new(card_params)
     if @card.save
       redirect_to card_path(@card.id)
