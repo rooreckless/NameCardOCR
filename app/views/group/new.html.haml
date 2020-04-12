@@ -1,0 +1,34 @@
+= render 'partial/header'
+.groupnew_outer
+  .groupnew_inner
+    -if current_user.owned_group_id==nil and current_user.belonging_group_id==nil
+      .groupnew_inner__new
+        こちらの欄を記入しグループを作成します。(※あなたはグループのオーナーとなり、他のグループに所属できません)
+        = form_with model: @group ,class:"groupnew_inner__new__form",id:"#",local: true ,method: :post ,url:  group_index_path do |f|
+          = f.label :グループ名,class:"groupnew_inner__new__form"
+          = f.text_field :name,class:"groupnew_inner__new__form"
+          = f.label :パスワード,class:"groupnew_inner__new__form"
+          = f.password_field :password,class:"groupnew_inner__new__form"
+          = f.label :パスワード,class:"groupnew_inner__new__form"
+          = f.password_field :password_confirmation,class:"groupnew_inner__new__form"
+          %br/
+          = f.submit "グループを新規作成する",class:"groupnew_inner__new__form"
+    -if current_user.owned_group_id!=nil
+      .groupnew_inner__show
+        グループ情報を表示します。(※下のボタンでオーナーとして所持かつ所属している、グループの編集ができます。)
+        = form_with model: @group ,class:"groupnew_inner__show__form",id:"#",local: true ,method: :patch ,url:  group_path(@group.id) do |f|
+          = f.label :グループ名,class:"groupnew_inner__show__form"
+          = f.text_field :name,class:"groupnew_inner__show__form",readonly: "true"
+          = f.label :パスワード,class:"groupnew_inner__show__form groupnew_inner__show__input--password"
+          = f.password_field :password,class:"groupnew_inner__show__form groupnew_inner__show__input--password",readonly: "true"
+          = f.label :パスワード,class:"groupnew_inner__show__form groupnew_inner__show__input--passwordconfirm"
+          = f.password_field :password_confirmation,class:"groupnew_inner__show__form groupnew_inner__show__input--passwordconfirm",readonly: "true"
+          %br/
+          .groupnew_inner__show__btns
+            = f.submit "グループ情報を更新する",class:"groupnew_inner__show__form",id:"groupnew_inner__show__form--updatebtn"
+            #groupnew_inner__show__btns--starteditbtn
+              このグループ情報を編集する
+            #groupnew_inner__show__btns--reberteditbtn
+              グループ情報の編集をやめて戻る
+            = link_to 'このグループを削除する', group_path(@group.id), method: :delete, data: { confirm: '本当にこのグループを削除しますか？' },id:"groupnew_inner__show__btns--destroybtn"
+= render 'partial/footer'

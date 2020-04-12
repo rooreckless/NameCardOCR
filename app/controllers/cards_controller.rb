@@ -189,6 +189,7 @@ class CardsController < ApplicationController
     # puts "temp_sum = #{temp_sum}"
     # 上のforループでapiからのOCR結果の文字中の70文字を文字コードに変えた値を足し込み、params[:apiresulthash]としてdbに保存します。
     params[:apiresulthash]=temp_sum
+    binding.pry
     @card = Card.new(card_params)
     if @card.save
       redirect_to card_path(@card.id)
@@ -222,9 +223,11 @@ class CardsController < ApplicationController
   end
   private
   def card_params 
-    params.permit(:name, :company, :department, :address, :tel,:email,:apiresulttext,:apiresulthash).merge(user_id: current_user.id)
+    params.permit(:name, :company, :department, :address, :tel,:email,:apiresulttext,:apiresulthash).merge(user_id: current_user.id).merge(group_id: current_user.belonging_group_id)
+    # .merge(group_id: current_user.belonging_group_id)の部分でユーザの所属グループidも保存します。
   end
   def update_params 
-    params.require(:card).permit(:name, :company, :department, :address, :tel,:email).merge(user_id: current_user.id)
+    params.require(:card).permit(:name, :company, :department, :address, :tel,:email).merge(user_id: current_user.id).merge(group_id: current_user.belonging_group_id)
+    # .merge(group_id: current_user.belonging_group_id)の部分でユーザの現在所属グループid値で更新します。
   end
 end

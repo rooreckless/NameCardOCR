@@ -1,0 +1,30 @@
+.groupnew_outer{
+  width:100%;
+  height:calc(100vh - 150px);
+  background-color: $backLightGray;
+  padding-left:50px;
+  padding-right:50px;
+  .groupnew_inner{
+    width:100%;
+    height:inherit;
+    background-color:$mainWhite;
+    &__show{
+      &__input{
+        &--password{
+          visibility:hidden;
+        }
+        &--passwordconfirm{
+          visibility:hidden;
+        }
+      }
+      &__btns{
+        #groupnew_inner__show__form--updatebtn{
+          visibility:hidden;
+        }
+        #groupnew_inner__show__btns--reberteditbtn{
+          visibility:hidden;
+        }
+      }
+    }
+  }
+}
