@@ -23,6 +23,8 @@
         = f.label "パスワード(再入力してください)"
         %br/
         = f.password_field :password_confirmation, autocomplete: "new-password"
+        = f.hidden_field :group_id, value: nil
+        = f.hidden_field :owned_group_id, value: nil
       .actions
         = f.submit "入力内容でユーザ登録します",class:"devise_body--submitbtn"
     = render "devise/shared/links"

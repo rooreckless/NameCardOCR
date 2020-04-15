@@ -8,3 +8,15 @@
   color: $mainBlue;
 }
 
+.linkWhitebtn{
+  display:inline;
+  border-radius: 5px;
+  border:1px solid $mainWhite;
+  color:$mainWhite;
+  padding:3px;
+  text-align:center;
+  &:hover{
+    border:1px solid $btnOrange;
+    color:$btnOrange;
+  }
+}

@@ -5,7 +5,12 @@
     ユーザ名 :
     -if user_signed_in?
       =current_user.nickname
-      = link_to "ログアウト", destroy_user_session_path, method: :delete
+      所属グループ名 :
+      -if current_user.group != nil 
+        = link_to "#{current_user.group.name}",new_group_path, method: :get,class: 'linkWhite'
+      -else
+        = link_to '未所属',new_group_path, method: :get,class: 'animationEmRed'
+      = link_to "ログアウト", destroy_user_session_path, method: :delete,class:"linkWhite linkWhitebtn"
     -else
       ログインしていません
       = link_to 'ログインする',new_user_session_path

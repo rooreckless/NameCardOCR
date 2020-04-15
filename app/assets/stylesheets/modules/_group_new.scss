@@ -1,0 +1,51 @@
+.groupnew_outer{
+  width:100%;
+  height:calc(100vh - 150px);
+  background-color: $backLightGray;
+  padding-left:50px;
+  padding-right:50px;
+  .groupnew_inner{
+    width:100%;
+    height:inherit;
+    background-color:$mainWhite;
+    padding-top:10px;
+    &--subtitle{
+      font-size: 1.5em;
+    }
+    &--emred{
+      color:$mainEmRed;
+      font-weight:bold;
+    }
+    &__show{
+      &__input{
+        &--password{
+          visibility:hidden;
+        }
+        &--passwordconfirm{
+          visibility:hidden;
+        }
+      }
+      &__btns{
+        #groupnew_inner__show__form--updatebtn{
+          visibility:hidden;
+        }
+        #groupnew_inner__show__btns--reberteditbtn{
+          visibility:hidden;
+        }
+      }
+    }
+    &__showbelonggroup{
+      display:block;
+      &--resignbtn{
+        border:1px solid $mainBlue;
+        border-radius:5px;
+        color:$mainBlue;
+        &:hover{
+          border:1px solid $btnOrange;
+          color:$btnOrange;
+        }
+      }
+    }
+  }
+  
+}

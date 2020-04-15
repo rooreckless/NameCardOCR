@@ -1,16 +1,15 @@
 class CardsController < ApplicationController
   before_action :authenticate_user!, except: [:top]
-  def top
-
-  end
   def index
     @cards = Card.includes(:user).where(user_id: current_user.id).order("created_at DESC")
-    puts @cards
-    puts @cards.length
+    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).order("created_at DESC")
+    if current_user.group != nil
+      @groupname=current_user.group.name
+    else
+      @groupname="未所属"
+    end
   end
-  def searchnormalform
 
-  end
   def searchnormaltext
     #puts params #=>params[:name],〜params[:email]
     # @cards=Card.where("name like ?", "%#{params[:name]}%")
@@ -18,64 +17,28 @@ class CardsController < ApplicationController
     # @cards=Card.where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%")
     # 上の「where名前あいまい.where会社あいまい」あいまいand検索あいまいになります。
     #また、「where名前あいまい.where会社あいまい」の「名前だけ」検索しても大丈夫です。
-    @cards=Card.where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
-    puts "-----searchnormaltext----"
-    puts @cards
-    puts @cards.length
-    # binding.pry
-    
+    ## @cards=Card.includes(:user).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
+    @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
+    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
   end
-  def searchcamera
-    puts "----searchcamera----"
-    puts params
-  end
+ 
   def searchajax
-    puts "----searchAJAX----"
-    puts params
-    # 検索対象の文字列はparams[:test]です。ただし"\n"が含まれているので、検索前に除去が必要です。createdataアクションとの統一感のため空白文字(全角半角ともに)も除去します。
-    params[:test].gsub!(/(\r\n?|\n|)/,"")
-    params[:test].gsub!(" ","")
-    params[:test].gsub!("　","")
-    puts "----searchAJAX gsub!----"
-    puts params
-    
-    temp_sum=0
-    for i in 0..69 do
-      # デバッグ用表示
-      # puts "i=#{i}, #{params[:test][i]}, params[:test][i].ord = #{params[:test][i].ord}"
-      temp_sum+=params[:test][i].ord
-    end
-    # temp_sumは検索用の文字列の先頭から70文字の文字コードを足しこんだものです。これの+-20000の範囲で、cardモデルのapiresulthash値で検索して@cardsとします。
-    # 現状はログインユーザと、そのカードを登録したユーザが一致していることも条件に含め増す。
-    @cards=Card.where(apiresulthash: (temp_sum - 20000)..(temp_sum + 20000)).where(user_id: current_user.id)
+    # GoogleCloudAPIからの認識結果と、先頭から何文字を検索用文字とするかを設定してクラスメソッドへ=>cardsのapiresulthash値に対応する値をつくります。
+    searchapiresulthash=Card.createApiresulthash(params[:test],70)
+    # puts "searchapiresulthash=#{searchapiresulthash}"
+    @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 20000)..(searchapiresulthash + 20000)).order("created_at DESC")
+    # puts "@cards_inGroup.length=#{@cards_inGroup.length}"
+    @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 20000)..(searchapiresulthash + 20000)).order("created_at DESC")
+    # puts "@cards_inUser.length=#{@cards_inUser.length}"
   end
   def createajax
     require 'google/cloud/language' #APIを使う
     require 'net/http'
     require 'json'
-    # 
-    # 
-    puts params
-    # binding.pry
-    # @base64edpict = params[:test]
-    # 
-    # 
-    
-    # file = File.open('test.txt',"w")
-
-    @params=params
-    @params2=params[:test]
-    puts "params[:test]"
-    # puts params[:test]
-    puts "@params2"
-    # puts @params2
-    #puts @params2 #=>Base64化された画像データ
+    @params2=params[:test]#=>Base64化された画像データ
     
     #ここからはGCPのvisionAPIへのアクセスです。
-    #本来は以下見たいに環境変数にAPI KEYをセットしてURLとするのでしょうが、
-    # URL = "https://vision.googleapis.com/v1/images:annotate?key=#{ENV['DO_GOOGLE_VISION_API_KEY']}"
-    #今回は直接API KEYを埋め込みます
-    url = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCOYTVym6HtrwRTs3w1jkkYVzNupifDpLE"
+    url=Rails.application.credentials[:Google][:Cloudvision_api_key]
     #Net::HTTPでAPIへリクエストを発行する
     uri           = URI.parse(url)
     https         = Net::HTTP.new(uri.host, uri.port)
@@ -125,75 +88,48 @@ class CardsController < ApplicationController
       res.body.force_encoding("UTF-8")
       #名刺画像で、textdetectionだとなぜかASCIIになってしまう文字コードを強引に変換(猫画像をtextdetection抜きでやってたら別に問題なかったが...)
       # http://koexuka.blogspot.com/2010/03/rubyascii-8bit.html
-      puts "------res.body------"
-      puts res.body.class #=>このままではres.bodyはstring型です。
-      # p res.body.inspect
-
+      
       @resbody=res.body
       @hash = JSON.parse(res.body) #=>String型なres.bodyをJSON形式に変えます。
-      puts @hash.class #=>hash
-      puts "-----@hash.inspect-----"
-      # p @hash.inspect
-      p "-----@hash['responses'][0]['textAnnotations'][0]['description']-----"
-      # puts @hash["responses"]
-      puts @hash["responses"][0]["textAnnotations"][0]["description"]
       @hashdescription=@hash["responses"][0]["textAnnotations"][0]["description"]
       # 上の@hashdescriptionがOCRの結果の文字列です。newcameraビューで表示している内容です。
 
       #----------------------------ここまでが、画像からOCR。下はテキストから構文解析
-      url = 'https://language.googleapis.com/v1/documents:analyzeEntities?key=AIzaSyANgufgAmLBF4I11wEKPJ2CuL4resK7qMg'
-      #こちらはGCPのNaturalLanguageAPIの方のキーです。
+      # url = Rails.application.credentials[:Google][:NaturalLanguage_api_key]
+      # #こちらはGCPのNaturalLanguageAPIの方のキーです。
       
-      #Net::HTTPでAPIへリクエストを発行する
-      uri           = URI.parse(url)
-      https         = Net::HTTP.new(uri.host, uri.port)
-      https.use_ssl = true
+      # #Net::HTTPでAPIへリクエストを発行する
+      # uri           = URI.parse(url)
+      # https         = Net::HTTP.new(uri.host, uri.port)
+      # https.use_ssl = true
 
-      #リクエストにパラメーターをセットする
-      req                 = Net::HTTP::Post.new(uri.request_uri)
-      req["Content-Type"] = "application/json"
-      text=@hashdescription
-      param               = {
-        "document": {
-            "type": "PLAIN_TEXT",
-            "language": "JA",
-            "content": text
-        },
-        "encodingType": "UTF8"
-      }
-      req.body = param.to_json
-      resNa      = https.request(req)
-      resNa.body.force_encoding("UTF-8")
-      puts "----------"
-      puts resNa.body
-      puts resNa.body.class
-      resNajsoned= JSON.parse(resNa.body)
+      # #リクエストにパラメーターをセットする
+      # req                 = Net::HTTP::Post.new(uri.request_uri)
+      # req["Content-Type"] = "application/json"
+      # text=@hashdescription
+      # param               = {
+      #   "document": {
+      #       "type": "PLAIN_TEXT",
+      #       "language": "JA",
+      #       "content": text
+      #   },
+      #   "encodingType": "UTF8"
+      # }
+      # req.body = param.to_json
+      # resNa      = https.request(req)
+      # resNa.body.force_encoding("UTF-8")
+      # puts "----------"
+      # puts resNa.body
+      # puts resNa.body.class
+      # resNajsoned= JSON.parse(resNa.body)
   end
   def createdata
-    # puts "----createdata----"
-    # puts params
-    # params[:apiresulttext]=@hashdescription
-    params[:apiresulttext].gsub!(/(\r\n?|\n|)/,"")
-    # hidden_fieldのvalueにされたapiからの返答は改行コード(/r/n)がつくので除去します。
-    # しかし、ここの置き換え後の文字は""にするか、 " "にするか検討が必要です。
-    params[:apiresulttext].gsub!(" ","")
-    params[:apiresulttext].gsub!("　","")
-    # やはり、空白文字は全角半角すべて除去します。その状態でapiresulttextカラムに入れることにします。
-
-    temp_sum=0
-    for i in 0..69 do
-      # デバッグ用表示
-      # puts "i=#{i}, #{params[:apiresulttext][i]}, params[:apiresulttext][i].ord = #{params[:apiresulttext][i].ord}"
-      temp_sum+=params[:apiresulttext][i].ord
-    end
-    # puts "temp_sum = #{temp_sum}"
-    # 上のforループでapiからのOCR結果の文字中の70文字を文字コードに変えた値を足し込み、params[:apiresulthash]としてdbに保存します。
-    params[:apiresulthash]=temp_sum
+    params[:apiresulthash] = Card.createApiresulthash(params[:apiresulttext],70)
     @card = Card.new(card_params)
     if @card.save
-      redirect_to card_path(@card.id)
+      redirect_to card_path(@card.id),notice: '名刺データを作成しました。' and return
     else
-      redirect_to newcamera_path
+      redirect_to newcamera_cards_path,allert:'名刺データの作成に失敗しました。' and return
     end
   end
   def show
@@ -206,25 +142,30 @@ class CardsController < ApplicationController
   def update
     @card=Card.find(params[:id])
     if @card.update(update_params)
-      redirect_to card_path(@card.id) and return
+      redirect_to card_path(@card.id),notice: '名刺データを更新しました。' and return
     else
-      redirect_to card_path(@card.id) and return
+      redirect_to card_path(@card.id),allert: '名刺データを更新に失敗しました。' and return
     end
   end
   def destroy
     card=Card.find(params[:id])
-    # binding.pry
     if current_user.id != card.user_id
-      redirect_to root_path
+      redirect_to root_path and return
     end
-    card.destroy
-    redirect_to cards_path
+    if card.destroy
+      redirect_to root_path,notice: '名刺データを削除しました。' and return
+    else
+      redirect_to cards_path,allert: '名刺データの削除に失敗しました。' and return
+    end
+    
   end
   private
   def card_params 
-    params.permit(:name, :company, :department, :address, :tel,:email,:apiresulttext,:apiresulthash).merge(user_id: current_user.id)
+    params.permit(:name, :company, :department, :address, :tel,:email,:apiresulttext,:apiresulthash).merge(user_id: current_user.id).merge(group_id: current_user.group_id)
+    # .merge(group_id: current_user.group_id)の部分でユーザの所属グループidも保存します。
   end
   def update_params 
-    params.require(:card).permit(:name, :company, :department, :address, :tel,:email).merge(user_id: current_user.id)
+    params.require(:card).permit(:name, :company, :department, :address, :tel,:email).merge(user_id: current_user.id).merge(group_id: current_user.group_id)
+    # .merge(group_id: current_user.group_id)の部分でユーザの現在所属グループid値で更新します。
   end
 end

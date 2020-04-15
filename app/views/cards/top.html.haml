@@ -1,9 +1,12 @@
 = render 'partial/header'
+= render 'layouts/notifications'
 .topouter
   .topbody
-    = link_to 'あなたの名刺を一覧表示する', "/cards", method: :get,class: 'topbody__btn--cardindex topbody__btn'
-    = link_to '名刺を新たに登録する', "/newcamera", method: :get,class: 'topbody__btn--newcamera topbody__btn'
+    = link_to 'あなたの名刺を一覧表示する', cards_path, method: :get,class: 'topbody__btn--cardindex topbody__btn'
+    = link_to '名刺を新たに登録する', newcamera_cards_path, method: :get,class: 'topbody__btn--newcamera topbody__btn'
     .topbody__row
-      = link_to 'カメラを使用してあなたの名刺を検索する', "/searchcamera", method: :get,class: 'topbody__btn--searchcamera topbody__btn'
-      = link_to '文字入力であなたの名刺を検索する', "/searchnormalform", method: :get,class: 'topbody__btn--searchnormalform topbody__btn'    
+      = link_to 'カメラを使用してあなたの名刺を検索する', searchcamera_cards_path, method: :get,class: 'topbody__btn--searchcamera topbody__btn'
+      = link_to '文字入力であなたの名刺を検索する',searchnormalform_cards_path, method: :get,class: 'topbody__btn--searchnormalform topbody__btn'
+    %hr
+    = link_to 'グループへの参加/グループの新規登録をする/参加・作成しているグループについて編集する',new_group_path, method: :get,class: 'topbody__btn--groupnew topbody__btn'
 = render 'partial/footer'
