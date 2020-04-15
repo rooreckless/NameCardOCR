@@ -41,7 +41,17 @@
       }
     }
     &__results{
-      overflow:scroll;
+      height:100%;
+      &--Group{
+        padding:0 2px 0 2px;
+        height:30%;
+        overflow:scroll;
+      }
+      &--User{
+        padding:0 2px 0 2px;
+        height:30%;
+        overflow:scroll;
+      }
       &__row{
         display:flexbox;
         justify-content: flex-start;

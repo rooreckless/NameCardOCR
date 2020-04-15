@@ -1,86 +1,102 @@
 <%= render 'partial/header' %>
 <div class="searchcamera_outer">
-<div class="searchcamera_body">
-<div class="headmessage"><p>今から<span class="headmessage--red">名刺の写真を撮影して</span>、名刺のデータを検索します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに<span class="headmessage--red">「カメラへのアクセスの許可を求め」られた場合は、許可してください。</span><br>※今から撮影する写真を画像データとして保存することはありません。</small></div>
-<!-- カメラ映像が描画されます。 -->
-<video id="video_area" class="video_area_cls" style="background-color: #000" autoplay></video>
-
-<!-- 押下するとカメラ映像描画を開始します。 -->
-<!--<button id="start_btn">映像表示開始</button>-->
-
-<!-- 押下するとカメラ映像から静止画をキャプチャします。 -->
-<button id="video_area_btn" class="video_area_cls" onclick="copyFrame()">撮影 します</button>
-<p class="video_area_cls">上の領域に名刺の全体が映るようにして、「撮影」ボタンを押してください</p>
-<!-- キャプチャした静止画が描画されます。 -->
-<canvas id="capture_image" class="capture_image_cls" style="display:block;"></canvas>
-<br>
-<button id="drawCanvas" class="capture_image_cls" style="display:none;" onclick="drawCanvas()">この画像で検索する</button>
-<br>
-<button id="rebertpic_btn" class="capture_image_cls" style="display:none;" onclick="rebertpic()">撮影をやりなおしたい</button>
-<p class="capture_image_cls" style="display:none;">こちらの画像から文字を認識して検索します。<br>よろしければ、「この画像で検索する」ボタンをおしてください。<br>別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。 </p>
-<hr class="drawCanvas__after">
-
-<p class="drawCanvas__after">検索結果を表示します。詳細を確認したい名刺を選択してください。</p>
-<div class="searchresults drawCanvas__after"></div>
+  <div class="searchcamera_body">
+  <div class="headmessage"><p>今から<span class="headmessage--red">名刺の写真を撮影して</span>、名刺のデータを検索します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに<span class="headmessage--red">「カメラへのアクセスの許可を求め」られた場合は、許可してください。</span><br>※今から撮影する写真を画像データとして保存することはありません。</small></div>
+  <div class="searchcamera__step1">
+    <!-- カメラ映像が描画されます。 -->
+    <video id="video_area" class="video_area_cls" style="background-color: #000" autoplay></video>
+    <!-- 押下するとカメラ映像から静止画をキャプチャします。 -->
+    <button id="video_area_btn" class="video_area_cls animationEmRed" onclick="go_step2()">撮影 します</button>
+    <p class="video_area_cls">上の領域に名刺の全体が映るようにして、「撮影」ボタンを押してください</p>
+    <!-- キャプチャした静止画が描画されます。 -->
+  </div>
+  <div class="searchcamera__step2">
+    <canvas id="capture_image" class="capture_image_cls" style="display:block;"></canvas>
+    <br>
+    <button id="drawCanvas" class="capture_image_cls animationEmRed" onclick="drawCanvas()">この画像で検索する</button>
+    <br>
+    <button id="rebertpic_btn" class="capture_image_cls" onclick="rebert_step1()">撮影をやりなおしたい</button>
+    <p class="capture_image_cls">こちらの画像から文字を認識して検索します。<br>よろしければ、「この画像で検索する」ボタンをおしてください。<br>別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。 </p>
+  <div>
+  <div class="searchcamera__step3">
+    <hr class="drawCanvas__after">
+    <p class="drawCanvas__after">検索結果を表示します。詳細を確認したい名刺を選択してください。</p>
+    <div class="searchresults drawCanvas__after"></div>
+  </div>
 <script>
-    function buildsearchHTML(cards){
+    function buildsearchresultHTML(cards_inGroup,cards_inUser){
       // 検索結果の件数をreturnHTMLに格納
-      var returnHTML=`<p>検索結果 : ${cards.length}件</p>`;
-      // 検索結果の各列名を格納
-      returnHTML+=`<div class="searchresults__row">
-            <input type="text" class="searchresults__row--name" readonly="true" value="名前">
-            </input>
-            <input type="text" class="searchresults__row--company" readonly="true" value="会社名">
-            </input>
-            <input type="text" class="searchresults__row--department" readonly="true" value="部署名">
-            </input>
-            <input type="text" class="searchresults__row--tel"  readonly="true" value="tel">
-            </input>
-            <input type="text" class="searchresults__row--email"  readonly="true" value="mail">
-            </input>
-            <div class="searchresults__row--goshowcard">
-              
-            </div>
-      </div>`;
-      for (var i=0;i<cards.length;i++){
-      
-      returnHTML+=`<div class="searchresults__row">
-            <input type="text" class="searchresults__row--name" readonly="true" value=${cards[i].name}>
-            </input>
-            <input type="text" class="searchresults__row--company" readonly="true" value=${cards[i].company}>
-            </input>
-            <input type="text" class="searchresults__row--department" readonly="true" value=${cards[i].department}>
-            </input>
-            <input type="text" class="searchresults__row--tel" readonly="true" value=${cards[i].tel}>
-            </input>
-            <input type="text" class="searchresults__row--email" readonly="true" value=${cards[i].email}>
-            </input>
-            
-            <a href="/cards/${cards[i].id}" class="searchresults__row--goshowcard">詳細確認</a>
-      </div>`;
+      var returnHTML=`<p>検索結果 : ${cards_inGroup.length+cards_inUser.length}件</p>`;
+      if((cards_inGroup.length > 0)||(cards_inUser.length > 0)){
+        // 検索結果の各列名を格納
+        returnHTML+=`<div class="searchresults__row">
+              <input type="text" class="searchresults__row--name" readonly="true" value="名前">
+              </input>
+              <input type="text" class="searchresults__row--company" readonly="true" value="会社名">
+              </input>
+              <input type="text" class="searchresults__row--department" readonly="true" value="部署名">
+              </input>
+              <input type="text" class="searchresults__row--tel"  readonly="true" value="tel">
+              </input>
+              <input type="text" class="searchresults__row--email"  readonly="true" value="mail">
+              </input>
+              <div class="searchresults__row--goshowcard">
+                
+              </div>
+        </div><hr>`;
+        if(cards_inGroup.length > 0){
+          returnHTML+=`所属グループにてすでに登録済みの名刺 ${cards_inGroup.length}件`
+          for (var i=0;i<cards_inGroup.length;i++){ 
+          returnHTML+=`<div class="searchresults__row">
+                <input type="text" class="searchresults__row--name" readonly="true" value=${cards_inGroup[i].name}>
+                </input>
+                <input type="text" class="searchresults__row--company" readonly="true" value=${cards_inGroup[i].company}>
+                </input>
+                <input type="text" class="searchresults__row--department" readonly="true" value=${cards_inGroup[i].department}>
+                </input>
+                <input type="text" class="searchresults__row--tel" readonly="true" value=${cards_inGroup[i].tel}>
+                </input>
+                <input type="text" class="searchresults__row--email" readonly="true" value=${cards_inGroup[i].email}>
+                </input>
+                
+                <a href="/cards/${cards_inGroup[i].id}" class="searchresults__row--goshowcard">詳細確認</a>
+          </div><hr>`;
+          }
+        }
+        if(cards_inUser.length > 0){
+          returnHTML+=`あなたが個人として登録済みの名刺 ${cards_inUser.length}件`
+          for (var i=0;i<cards_inUser.length;i++){ 
+          returnHTML+=`<div class="searchresults__row">
+                <input type="text" class="searchresults__row--name" readonly="true" value=${cards_inUser[i].name}>
+                </input>
+                <input type="text" class="searchresults__row--company" readonly="true" value=${cards_inUser[i].company}>
+                </input>
+                <input type="text" class="searchresults__row--department" readonly="true" value=${cards_inUser[i].department}>
+                </input>
+                <input type="text" class="searchresults__row--tel" readonly="true" value=${cards_inUser[i].tel}>
+                </input>
+                <input type="text" class="searchresults__row--email" readonly="true" value=${cards_inUser[i].email}>
+                </input>
+                
+                <a href="/cards/${cards_inUser[i].id}" class="searchresults__row--goshowcard">詳細確認</a>
+          </div><hr>`;
+          }
+        }
+      }else{
+        // 所属グループ、ユーザ個人としても検索できなかった場合の領域です。
       }
-      console.log("returnHTML");
-      console.log(returnHTML);
       return returnHTML;
     }
-    // getUserMedia が使えないときは、『getUserMedia()が利用できないブラウザです！』と言ってね。
+    // getUserMedia が使えないときは、『getUserMedia()が利用できないブラウザです』と言ってね。
     if (typeof navigator.mediaDevices.getUserMedia !== 'function') {
-        const err = new Error('getUserMedia()が利用できないブラウザです！');
+        const err = new Error('getUserMedia()が利用できないブラウザです');
         alert(`${err.name} ${err.message}`);
         throw err;
     }
 
     // 操作する画面エレメント変数定義します。
-    const $start = document.getElementById('start_btn');   // スタートボタン
     const $video = document.getElementById('video_area');  // 映像表示エリア
 
-    // 「スタートボタン」を押下したら、getUserMedia を使って映像を「映像表示エリア」に表示してね。
-    // $start.addEventListener('click', () => {
-    //     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-    //     .then(stream => $video.srcObject = stream)
-    //     .catch(err => alert(`${err.name} ${err.message}`));
-    // }, false);
-    // スタートボタン押下まちでなく、このページが開かれたら(そしてDOMの読み込みが完了したら)カメラが起動します。
     document.addEventListener('DOMContentLoaded', () => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: false })
         .then(stream => $video.srcObject = stream)
@@ -88,8 +104,8 @@
     }, false);
 
 
-    // 「静止画取得」ボタンが押されたら「<canvas id="capture_image">」に映像のコマ画像を表示します。
-    function copyFrame() {
+    // 撮影ボタンが押されたら「<canvas id="capture_image">」に映像のコマ画像を表示します。
+    function go_step2() {
 
         var canvas_capture_image = document.getElementById('capture_image');
         var cci = canvas_capture_image.getContext('2d');
@@ -99,52 +115,33 @@
         canvas_capture_image.height = va.videoHeight;
         cci.drawImage(va, 0, 0);  // canvasに『「静止画取得」ボタン』押下時点の画像を描画。
         // 撮影確認領域と撮影用ボタンを排除
-        $('.video_area_cls').css('display','none');
-        // $('.capture_image_cls').css('display','');
-        $('.capture_image_cls').css('display','block');
-        // $('#drawCanvas').css('display','');
-        // $('#rebertpic_btn').css('display','');
-        // $('#capture_image').css('display','');
+        $('.searchcamera__step1').css('display','none');
+        $('.searchcamera__step2').css('display','block');
+        $('.searchcamera__step3').css('display','none');
     }
-    function rebertpic(){
+    function rebert_step1(){
       // 取り直しボタンを押されたときの挙動
-        $('.video_area_cls').css('display','');
-        $('.capture_image_cls').css('display','none');
-        // $('#capture_image').css('display','none');
-        // $('#drawCanvas').css('display','none');
-        // $('#rebertpic_btn').css('display','none');
-        // $('#capture_image').css('display','none');
-        $('.drawCanvas__after').css('display','none');
-        $('.drawCanvas__after__form').css('display','none');
-        $('.searchresults').html('');
+      $('.searchcamera__step1').css('display','block');
+      $('.searchcamera__step2').css('display','none');
+      $('.searchcamera__step3').css('display','none');
+      $('#searchresults').empty();
     }
     function drawCanvas(){
       // 使用する写真が決定したときの挙動
-      // var canvas = document.getElementById('capture_image');
       var canvas = $('#capture_image').get(0);
       if (canvas.getContext){ // 未サポートブラウザでの実行を抑止
         var ctx = canvas.getContext('2d');
         // 描画用のコードを記述
       }
-      console.log(canvas);
-      console.log(canvas.html);
-      console.log(ctx);
       // 取得した画像のbase64化
       var canvasbase64 = canvas.toDataURL('image/png');
-      // var canvasbase64 = canvas.encode
-      console.log(canvasbase64);
-      // console.log(canvas.toDataURL('image/png'));
 
       var splited_canvasbase64 = canvasbase64.split(",");
-      console.log(splited_canvasbase64.length);
-      console.log("splited_canvasbase64[0]");
-      console.log(splited_canvasbase64[0]);
-      console.log("splited_canvasbase64[1]");
-      console.log(splited_canvasbase64[1]);
+     
 
       // ajax通信開始
       $.ajax({
-      url: '/createajax',
+      url: '/cards/createajax',
       type: "POST",
       data: {test: splited_canvasbase64[1]},
       dataType: 'json',
@@ -152,33 +149,20 @@
       // contentType: false,
     }).done(function(data){
       // ajax通信完了後ですが、条件分岐します。
-      $('#base64result').css('display','');
-      $('#base64result').text(data.hashdescription);
-      $('.drawCanvas__after').css('display','block');
-      $('.drawCanvas__after__form').css('display','block');
-      $('#drawCanvas').css('display','none');
-
-      // $('#hiddenapiresulttext').attr("value",data.hashdescription);
-      $('#hiddenapiresulttext').val(data.hashdescription);
-      console.log("----#hiddenapiresulttext-----");
-      console.log($('#hiddenapiresulttext').val());
-      //
+      $('.searchcamera__step3').css('display','block');
       var resultdescription=data.hashdescription;
       // 2回目のajax通信(cards#searchajaxへ、文字認識結果を送り、検索結果を受け取ります)
       $.ajax({
-      url: '/searchajax',
+      url: '/cards/searchajax',
       type: "POST",
       data: {test: resultdescription},
       dataType: 'json',})
       .done(function(data){
-        console.log(data);
-        console.log(data.cards);
-        console.log(data.cards.length);
-        // console.log(data.cards[0]);
         // searchajax.json.jbuilderより、data.cardsが検索結果のカード達になります。
-        console.log("--done2--");
-        var html=buildsearchHTML(data.cards);
-        console.log(html);
+        
+        // var html=buildsearchHTML(data.cards);
+        var html=buildsearchresultHTML(data.cards_inGroup,data.cards_inUser)
+        $('.searchresults').empty();
         $('.searchresults').append(html);
       })
       .fail(function(){
@@ -186,12 +170,13 @@
       });
       
     }).fail(function(){
-      alert("エラーが発生しました。画像から文字を全く認識できなかった可能性があります。このメッセージの後、再度このページを再読み込みします。");
+      alert("エラーが発生しました。画像から文字を全く認識できなかった可能性があります。このメッセージの後、ページを再読み込みします。");
       location.reload();
     });
     }
 
 </script>
+</div>
 </div>
 </div>
 <%= render 'partial/footer' %>

@@ -1,4 +1,5 @@
 = render 'partial/header'
+= render 'layouts/notifications'
 .episode_outer
   %h3 エピソードの詳細
   .episode_inner
@@ -12,7 +13,9 @@
       %br/
       = f.submit "このやり取りを更新する",id:"episode_inner__form__updatebtn",class:"episode_inner__form",style:"display:none;"
     .episode_inner__btns
-      #episode_inner__startedit このエピソードを編集したい
-      #episode_inner__rebertedit 編集を適用せず、戻る
-      = link_to 'このエピソードを削除する', card_episode_path(@episode.card_id,@episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' },id:"episode_inner__destroybtn"
+      -if current_user.id ==@episode.user_id
+        #episode_inner__startedit このエピソードを編集したい
+        #episode_inner__rebertedit 編集を適用せず、戻る
+        = link_to 'このエピソードを削除する', card_episode_path(@episode.card_id,@episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' },id:"episode_inner__destroybtn"
+      = link_to '名刺の詳細画面へ戻る', card_path(@episode.card_id), method: :get,id:"episode_inner__backcardshowbtn"
 = render 'partial/footer'

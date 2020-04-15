@@ -8,6 +8,14 @@
     width:100%;
     height:inherit;
     background-color:$mainWhite;
+    padding-top:10px;
+    &--subtitle{
+      font-size: 1.5em;
+    }
+    &--emred{
+      color:$mainEmRed;
+      font-weight:bold;
+    }
     &__show{
       &__input{
         &--password{
@@ -26,5 +34,18 @@
         }
       }
     }
+    &__showbelonggroup{
+      display:block;
+      &--resignbtn{
+        border:1px solid $mainBlue;
+        border-radius:5px;
+        color:$mainBlue;
+        &:hover{
+          border:1px solid $btnOrange;
+          color:$btnOrange;
+        }
+      }
+    }
   }
+  
 }

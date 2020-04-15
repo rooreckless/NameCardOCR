@@ -1,30 +1,27 @@
 class EpisodesController < ApplicationController
   def create
-    puts params
-    binding.pry
     episode=Episode.new(episode_params)
     episode.save
     redirect_to card_path(params[:card_id])
   end
   def update
-    puts "----episode#update---"
     @episode=Episode.find(params[:id])
-    puts params
-    # binding.pry
-    @episode.update(update_params)
-    # redirect_to "/card/#{params[:card_id]}/episodes/#{params[:id]}"
-    redirect_to card_episode_path(@episode.id)
+    if @episode.update(update_params)
+      redirect_to card_episode_path(@episode.card_id,@episode.id),notice: 'エピソードを更新しました。'
+    else
+      redirect_to card_episode_path(@episode.card_id,@episode.id),notice: 'エピソードの更新に失敗しました。'
+    end
   end
   def destroy
     episode=Episode.find(params[:id])
-    puts "----episode#destory---"
-    puts params
-    episode.destroy
-    redirect_to card_path(params[:card_id])
+    if episode.destroy
+      redirect_to card_path(params[:card_id]),notice: 'エピソードを削除しました。'
+    else
+      redirect_to card_path(params[:card_id]),allert: 'エピソードの削除に失敗しました。'
+    end
+    
   end
   def show
-    puts "----episode#show---"
-    puts params
     @episode=Episode.find(params[:id])
     @cardid=@episode.card_id
     if params[:card_id].to_i != @episode.card_id
@@ -34,9 +31,9 @@ class EpisodesController < ApplicationController
   end
   private
   def episode_params 
-    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id).merge(group_id: current_user.belonging_group_id)
+    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id).merge(group_id: current_user.group_id)
   end
   def update_params 
-    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id).merge(group_id: current_user.belonging_group_id)
+    params.require(:episode).permit(:content, :when, :where).merge(card_id: params[:card_id].to_i).merge(user_id: current_user.id).merge(group_id: current_user.group_id)
   end
 end

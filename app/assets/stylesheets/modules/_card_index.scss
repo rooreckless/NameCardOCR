@@ -6,13 +6,16 @@
     width:95%;
     background-color:$mainWhite;
     margin:0 auto;
-    height:inherit;
+    height:100%;
     display:block;
     padding-left:30px;
     padding-right:30px;
     &__form{  
+      padding:0 2px 0 2px;
+      height:49%;
+      border:1px solid black;
       &--cardid{
-        width:20px;
+        width:30px;
       }
       &__body{
         overflow: scroll;
@@ -20,6 +23,25 @@
         &__more{
           margin-top:3px;
         }
+      }
+      &--link{
+        border:1px solid $mainBlue;
+        color:$mainBlue;
+        &:hover{
+          border:1px solid $btnOrange;
+          color:$btnOrange;
+        }
+      }
+    }
+    &__groupform{
+      padding:0 2px 0 2px;
+      height:49%;
+      border:1px solid black;
+      &--cardid{
+        width:30px;
+      }
+      &__body{
+        overflow: scroll;
       }
       &--link{
         border:1px solid $mainBlue;

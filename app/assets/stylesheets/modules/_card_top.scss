@@ -32,6 +32,9 @@
         color:$btnLightGreen;
         margin-left:10px;
       }
+      &--groupnew{
+        color:$btnRed;
+      }
     }
     &__row{
       display:flex;

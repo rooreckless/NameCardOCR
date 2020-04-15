@@ -1,9 +1,15 @@
 = render 'partial/header'
 .groupnew_outer
   .groupnew_inner
-    -if current_user.owned_group_id==nil and current_user.belonging_group_id==nil
+    -# グループをまだ作成していないユーザなら、実行できる領域
+    -if current_user.owned_group_id==nil and current_user.group_id==nil
       .groupnew_inner__new
-        こちらの欄を記入しグループを作成します。(※あなたはグループのオーナーとなり、他のグループに所属できません)
+        %h2.groupnew_inner--subtitle
+          グループの新規作成
+        こちらの欄を記入しグループを作成します。(※グループの新規作成をするとあなたはグループのオーナーとなり、
+        %span.groupnew_inner--emred
+          グループを削除するまで、他のグループに所属できません
+        )
         = form_with model: @group ,class:"groupnew_inner__new__form",id:"#",local: true ,method: :post ,url:  group_index_path do |f|
           = f.label :グループ名,class:"groupnew_inner__new__form"
           = f.text_field :name,class:"groupnew_inner__new__form"
@@ -13,9 +19,11 @@
           = f.password_field :password_confirmation,class:"groupnew_inner__new__form"
           %br/
           = f.submit "グループを新規作成する",class:"groupnew_inner__new__form"
+    -# グループオーナーであれば実行できる領域(グループ名編集やグループパスワード変更です。)
     -if current_user.owned_group_id!=nil
+      %hr
       .groupnew_inner__show
-        グループ情報を表示します。(※下のボタンでオーナーとして所持かつ所属している、グループの編集ができます。)
+        グループ情報を表示します。(※下のボタンでオーナーとして所持かつ所属しているグループ名、パスワードの編集ができます。)
         = form_with model: @group ,class:"groupnew_inner__show__form",id:"#",local: true ,method: :patch ,url:  group_path(@group.id) do |f|
           = f.label :グループ名,class:"groupnew_inner__show__form"
           = f.text_field :name,class:"groupnew_inner__show__form",readonly: "true"
@@ -31,4 +39,32 @@
             #groupnew_inner__show__btns--reberteditbtn
               グループ情報の編集をやめて戻る
             = link_to 'このグループを削除する', group_path(@group.id), method: :delete, data: { confirm: '本当にこのグループを削除しますか？' },id:"groupnew_inner__show__btns--destroybtn"
+    -if current_user.group_id == nil
+      %hr
+      .groupnew_inner__belonginggroup
+        %h2.groupnew_inner--subtitle
+          グループへ参加する
+        すでに作成されているグループに所属します。グループを選択して設定されているパスワードを入力し、「グループに所属する」ボタンを押してください。
+        %br
+        (※
+        %span.groupnew_inner--emred
+          グループに所属している状態では、新たにグループを作成することはできません。
+        グループを脱退する必要があります。)
+        = form_with model: @group ,class:"groupnew_inner__belonginggroup__form",id:"#",local: true ,method: :post ,url:  belonggroup_group_index_path(@group.id) do |f|
+          
+          = f.label :グループ名,class:"groupnew_inner__belonginggroup__form"
+          = f.select :wantbelong_groupid, Group.all.map { |group| [group.name, group.id] }
+          -# = f.text_field :name,class:"groupnew_inner__belonginggroup__form"
+          = f.label :パスワード,class:"groupnew_inner__belonginggroup__form groupnew_inner__belonginggroup__input--password"
+          = f.password_field :wantbelong_grouppassword,class:"groupnew_inner__belonginggroup__form groupnew_inner__belonginggroup__input--password"
+          = f.submit "グループに所属する",class:"groupnew_inner__belonginggroup__form",id:"groupnew_inner__belonginggroup__form--bellongbtn"
+    -if current_user.owned_group_id==nil and current_user.group_id != nil
+      %hr
+      .groupnew_inner__showbelonggroup
+        %p
+          現在所属しているグループ名 :
+        =text_field_tag :belonginggroupname,"#{current_user.group.name}",{readonly: "true"}
+        %p
+          (※グループに所属している状態では、新たにグループを作成することはできません。グループを脱退する必要があります。)
+        =link_to "このグループから退会する",resigngroup_group_path(current_user.group_id),method: :post,class:"groupnew_inner__showbelonggroup--resignbtn",data: { confirm: '本当にこのグループから退会しますか？' }
 = render 'partial/footer'

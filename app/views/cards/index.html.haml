@@ -1,9 +1,9 @@
 = render 'partial/header'
 .cardindex_outer
   .cardindex_body
-    #{current_user.nickname} さんが登録した名刺の一覧です。 (全 #{@cards.length} 件)
-    = form_with id:"#",local: true do |f|
-      .cardindex_body__form
+    .cardindex_body__form
+      = form_with id:"#",local: true do |f|
+        #{current_user.nickname} さんが登録した名刺の一覧です。 (全 #{@cards.length} 件)
         .cardindex_body__form__header
           = f.text_field :cardiid,class: "cardindex_body__form--cardid",value: "",readonly: true
           = f.text_field :cardname,class: "cardindex_body__form--cardname",value: "名前",readonly: true
@@ -12,7 +12,7 @@
           = f.text_field :cardaddress,class: "cardindex_body__form--cardaddress",value: "住所",readonly: true
           = f.text_field :cardtel,class: "cardindex_body__form--cardtel",value: "TEL",readonly: true
           = f.text_field :cardmail,class: "cardindex_body__form--cardmail",value: "mail",readonly: true
-      %hr
+          %hr
         .cardindex_body__form__body
           - @cards.each do |card|
             .cardindex_body__form__body__more
@@ -25,4 +25,31 @@
               = f.text_field :cardmail,class: "cardindex_body__form--cardmail",value: card.email,readonly: true
               = link_to '詳細', "/cards/#{card.id}", method: :get,class:"cardindex_body__form--link"
             %hr
+    -if current_user.group != nil
+      %hr
+      .cardindex_body__groupform
+        = form_with id:"#",local: true do |f|
+          #{current_user.nickname} さんが所属しているグループ #{@groupname}で登録した名刺の一覧です。 (全 #{@cards_inGroup.length} 件)
+          .cardindex_body__groupform__header
+            = f.text_field :cardiid,class: "cardindex_body__groupform--cardid",value: "",readonly: true
+            = f.text_field :cardname,class: "cardindex_body__groupform--cardname",value: "名前",readonly: true
+            = f.text_field :cardcompany,class: "cardindex_body__groupform--cardcompany",value: "会社名",readonly: true
+            = f.text_field :carddepartment,class: "cardindex_body__groupform--carddepartment",value: "部署名",readonly: true
+            = f.text_field :cardaddress,class: "cardindex_body__groupform--cardaddress",value: "住所",readonly: true
+            = f.text_field :cardtel,class: "cardindex_body__groupform--cardtel",value: "TEL",readonly: true
+            = f.text_field :cardmail,class: "cardindex_body__groupform--cardmail",value: "mail",readonly: true
+          %hr
+          .cardindex_body__groupform__body
+            - @cards_inGroup.each do |card|
+              .cardindex_body__groupform__body__more
+                = f.text_field :cardiid,class: "cardindex_body__groupform--cardid",value: card.id,readonly: true
+                = f.text_field :cardname,class: "cardindex_body__groupform--cardname",value: card.name,readonly: true
+                = f.text_field :cardcompany,class: "cardindex_body__groupform--cardcompany",value: card.company,readonly: true
+                = f.text_field :carddepartment,class: "cardindex_body__groupform--carddepartment",value: card.department,readonly: true
+                = f.text_field :cardaddress,class: "cardindex_body__groupform--cardaddress",value: card.address,readonly: true
+                = f.text_field :cardtel,class: "cardindex_body__groupform--cardtel",value: card.tel,readonly: true
+                = f.text_field :cardmail,class: "cardindex_body__groupform--cardmail",value: card.email,readonly: true
+                = link_to '詳細', "/cards/#{card.id}", method: :get,class:"cardindex_body__groupform--link"
+              %hr
+      %hr
 = render 'partial/footer'
