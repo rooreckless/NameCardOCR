@@ -21,8 +21,7 @@ class ApplicationController < ActionController::Base
     end
     def basic_auth
       authenticate_or_request_with_http_basic do |username, password|
-        username == Rails.application.credentials[:BasicAuth][:BasicAuthUser] && password == Rails.application.credentials[:BasicAuth][:BasicAuthPassword].to_s
-        # passwordの方は、強制的に文字列にしています。(なんでかは書きませんが。)
+        username == ENV["BASICAUTH_USER"] && password == ENV["BASICAUTH_PASS"]
       end
     end
 end
