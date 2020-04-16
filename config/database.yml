@@ -51,5 +51,4 @@ production:
   <<: *default
   database: NameCardOCR_production
   username: NameCardOCR
-  password: <%= Rails.application.credentials[:data_base_password]%>
-  # password: <%= ENV['NAMECARDOCR_DATABASE_PASSWORD'] %>
+  password: <%= ENV['NAMECARDOCR_DATABASE_PASSWORD'] %>
