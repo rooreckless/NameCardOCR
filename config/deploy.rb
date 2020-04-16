@@ -29,8 +29,8 @@ set :keep_releases, 5
 set :default_env, {
   rbenv_root: "/usr/local/rbenv",
   path: "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH",
-  username: ENV["BASICAUTH_USER"],
-  password: ENV["BASICAUTH_PASS"]
+  BASICAUTH_USER: ENV["BASICAUTH_USER"],
+  BASICAUTH_PASS: ENV["BASICAUTH_PASS"]
 }
 
 # デプロイ処理が終わった後、Unicornを再起動するための記述
