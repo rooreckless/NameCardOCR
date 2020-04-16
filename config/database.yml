@@ -51,6 +51,5 @@ production:
   <<: *default
   database: NameCardOCR_production
   username: root
-  password: <% Rails.application.credentials[:data_base_password]%>
+  password: <%= ENV['NAMECARDOCR_DATABASE_PASSWORD'] %>
   socket: /var/lib/mysql/mysql.sock
-  # password: <%= ENV['NAMECARDOCR_DATABASE_PASSWORD'] %>
