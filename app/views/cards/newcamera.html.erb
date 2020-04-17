@@ -80,7 +80,10 @@
 
       // スタートボタン押下まちでなく、このページが開かれたら(そしてDOMの読み込みが完了したら)カメラが起動します。
       document.addEventListener('DOMContentLoaded', () => {
-          navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+          navigator.mediaDevices.getUserMedia({ video: {
+            // スマホのバックカメラを使用
+            facingMode: 'environment'
+        }, audio: false })
           .then(stream => $video.srcObject = stream)
           .catch(err => alert(`${err.name} ${err.message}`));
       }, false);
