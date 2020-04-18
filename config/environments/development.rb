@@ -52,8 +52,6 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.assets.precompile += ['*.js']
-  # 上の記述はapplication.jsのrequire_treeを消したため、必要になりました。
-  # 開発環境では、appのjsファイルはすべてプリコンパイルする記述です。
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 

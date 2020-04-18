@@ -10,6 +10,5 @@
     = javascript_include_tag *Dir[Rails.root.join("**/javascripts/commonjs/*.js")]
     -# 上の記述で、「javascripts/commonjs」なディレクトリ内の、すべてのjsファイルを読み取り、全ビューでscrpitタグとして読み込みます。
     -# ただし、application.jsとcable.jsはcommonjsディレクトリに入れないでください。
-    -# ビューごとに特定のjsだけ読みたいなら、specificjsディレクトリに入れ、ビューごとに、javascript_include_tagで読み込んでください。
   %body
     = yield
