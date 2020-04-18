@@ -7,8 +7,6 @@
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
-    = javascript_include_tag *Dir[Rails.root.join("**/javascripts/commonjs/*.js")]
-    -# 上の記述で、「javascripts/commonjs」なディレクトリ内の、すべてのjsファイルを読み取り、全ビューでscrpitタグとして読み込みます。
-    -# ただし、application.jsとcable.jsはcommonjsディレクトリに入れないでください。
+    = javascript_include_tag 'application'
   %body
     = yield
