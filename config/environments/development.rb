@@ -49,6 +49,8 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
   config.assets.precompile += ['*.js']
+  # 開発環境ではすべてのjsファイルをプリコンパイル対象とします。
+  # application.jsのrequire_treeがデフォルトならいらないけど、今回は/commonをrequire_treeしているためいります。
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
