@@ -2,7 +2,7 @@
 = render 'layouts/notifications'
 .showcard_outer
   .showcard_left
-    名刺の内容
+    名刺の内容 (登録者 : #{@card.user.nickname} さん)
     =form_with model: @card ,class:"showcard_left__cardform",id:"#",local: true,url: {controller: 'cards', action: 'update' } do |f|
       .showcard_left__cardform__row
         =f.label :名前,class:"showcard_left__cardform__row--label"

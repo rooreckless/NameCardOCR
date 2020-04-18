@@ -2,7 +2,7 @@
 <%= render 'layouts/notifications' %>
 <div class="newcamera_outer">
   <div class="newcamera_body">
-    <div class="headmessage"><p>今から<span class="headmessage--red">名刺の写真を撮影して</span>、名刺のデータを登録します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザに<span class="headmessage--red">「カメラへのアクセスの許可を求め」られた場合は、許可してください。</span><br>※今から撮影する写真を画像データとして保存することはありません。</small>
+    <div class="headmessage"><p>今から<span class="headmessage--red">名刺の写真を撮影して</span>、名刺のデータを登録します。</p><br><small>この機能ではブラウザのカメラを利用いたします。<br>ブラウザから<span class="headmessage--red">「カメラへのアクセスの許可を求め」られた場合は、許可してください。</span><br>※今から撮影する写真を画像データとして保存することはありません。</small>
     <br>
     <%if current_user.group_id==nil%>
       <p>なお、<span class="headmessage--red">撮影前にグループに登録していただくと</span>、同じグループの方同士で名刺を共有できます。グループ登録は<a href="/group/new">こちら</a>です。</p>
