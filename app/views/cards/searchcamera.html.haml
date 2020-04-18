@@ -1,0 +1,43 @@
+= render 'partial/header'
+.searchcamera_outer
+  .searchcamera_body
+    .headmessage
+      %p
+        今から
+        %span.headmessage--red> 名刺の写真を撮影して
+        、名刺のデータを検索します。
+      %br/
+      %small
+        この機能ではブラウザのカメラを利用いたします。
+        %br>/
+        ブラウザから
+        %span.headmessage--red 「カメラへのアクセスの許可を求め」られた場合は、許可してください。
+        %br/
+    .searchcamera__step1
+      / カメラ映像が描画されます。
+      %video#video_area.video_area_cls{:autoplay => "", :style => "background-color: #000"}
+      / 押下するとカメラ映像から静止画をキャプチャします。
+      %button#video_area_btn.video_area_cls.animationEmRed{:onclick => "go_step2()"} 撮影 します
+      %p.video_area_cls 上の領域に名刺の全体が映るようにして、「撮影」ボタンを押してください
+      / キャプチャした静止画が描画されます。
+    .searchcamera__step2
+      %canvas#capture_image.capture_image_cls{:style => "display:block;"}
+      %br/
+      %button#drawCanvas.capture_image_cls.animationEmRed{:onclick => "drawCanvas()"} この画像で検索する
+      %br/
+      %br/
+      %button#rebertpic_btn.capture_image_cls{:onclick => "rebert_step1()"} 撮影をやりなおしたい
+      %p.capture_image_cls
+        こちらの画像から文字を認識して検索します。
+        %br>/
+        よろしければ、「この画像で検索する」ボタンをおしてください。
+        %br>/
+        別の画像で認識したい場合は「撮影をやりなおしたい」ボタンを押してください。
+      %div
+        .searchcamera__step3
+          %hr.drawCanvas__after/
+          %p.drawCanvas__after 検索結果を表示します。詳細を確認したい名刺を選択してください。
+          .searchresults.drawCanvas__after
+  = render 'partial/footer'
+  = javascript_include_tag 'specific/searchcamera'
+  / 上の書き方ではこのビューで読み込むjsファイルを指定しています。application.jsではcommonディレクトリの内容はすでに読み込んでますが、このビューだけの追加で読み込むjsの指定です。
