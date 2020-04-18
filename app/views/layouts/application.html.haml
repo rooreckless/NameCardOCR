@@ -13,3 +13,4 @@
     -# ビューごとに特定のjsだけ読みたいなら、specificjsディレクトリに入れ、ビューごとに、javascript_include_tagで読み込んでください。
   %body
     = yield
+    = javascript_include_tag *Dir[Rails.root.join("**/javascripts/commonjs/*.js")]
