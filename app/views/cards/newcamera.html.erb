@@ -66,12 +66,10 @@
       <%=f.submit "名刺データを作成",id:"drawCanvas__after__form--submitbtn",class:"drawCanvas__after" %>
       <%end%>
     </div>
-    <script>
-      
-    </script>
       </div>
     </div>
   </div>
 </div>
 <%= render 'partial/footer' %>
 <%= javascript_include_tag 'specific/newcamera'%>
+<!--上の書き方ではこのビューで読み込むjsファイルを指定しています。application.jsではcommonディレクトリの内容はすでに読み込んでますが、このビューだけの追加で読み込むjsの指定です。-->

@@ -4,7 +4,6 @@ if (typeof navigator.mediaDevices.getUserMedia !== 'function') {
   alert(`${err.name} ${err.message}`);
   throw err;
 }
-console.log('=====----searchcamera----====');
 // 操作する画面エレメント変数定義します。
 const $video = document.getElementById('video_area');  // 映像表示エリア
 
@@ -118,38 +117,37 @@ function drawCanvas(){
   var splited_canvasbase64 = canvasbase64.split(",");
  
 
-  // ajax通信開始
+  // ajax通信開始(コントローラ→api→返答をもらいます)
   $.ajax({
-  url: '/cards/createajax',
-  type: "POST",
-  data: {test: splited_canvasbase64[1]},
-  dataType: 'json',
-  // processData: false,
-  // contentType: false,
-}).done(function(data){
-  // ajax通信完了後ですが、条件分岐します。
-  $('.searchcamera__step3').css('display','block');
-  var resultdescription=data.hashdescription;
-  // 2回目のajax通信(cards#searchajaxへ、文字認識結果を送り、検索結果を受け取ります)
-  $.ajax({
-  url: '/cards/searchajax',
-  type: "POST",
-  data: {test: resultdescription},
-  dataType: 'json',})
-  .done(function(data){
-    // searchajax.json.jbuilderより、data.cardsが検索結果のカード達になります。
-    
-    // var html=buildsearchHTML(data.cards);
-    var html=buildsearchresultHTML(data.cards_inGroup,data.cards_inUser)
-    $('.searchresults').empty();
-    $('.searchresults').append(html);
-  })
-  .fail(function(){
-    alert("error search");
-  });
+    url: '/cards/createajax',
+    type: "POST",
+    data: {test: splited_canvasbase64[1]},
+    dataType: 'json',
+    // processData: false,
+    // contentType: false,
+  }).done(function(data){
+    // ajax通信完了。
+    $('.searchcamera__step3').css('display','block');
+    var resultdescription=data.hashdescription;
+    // 2回目のajax通信(cards#searchajaxへ、文字認識結果を送り、検索結果を受け取ります)
+    $.ajax({
+      url: '/cards/searchajax',
+      type: "POST",
+      data: {test: resultdescription},
+      dataType: 'json',})
+      .done(function(data){
+        // searchajax.json.jbuilderより、data.cardsが検索結果のカード達になります。
+        var html=buildsearchresultHTML(data.cards_inGroup,data.cards_inUser)
+        $('.searchresults').empty();
+        $('.searchresults').append(html);
+      })
+      .fail(function(){
+        alert("error search");
+      });
   
-}).fail(function(){
-  alert("エラーが発生しました。画像から文字を全く認識できなかった可能性があります。このメッセージの後、ページを再読み込みします。");
-  location.reload();
-});
+  }).fail(function(){
+    // 1段階目のajax通信結果(エラー)
+    alert("エラーが発生しました。画像から文字を全く認識できなかった可能性があります。このメッセージの後、ページを再読み込みします。");
+    location.reload();
+  });
 }
