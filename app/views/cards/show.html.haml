@@ -63,9 +63,9 @@
             %i.fas.fa-angle-down.showcard_right__episode__more
             %ul.showcard_right__episode__more__list
               %li
-                = link_to '詳細', "/cards/#{@card.id}/episodes/#{episode.id}", method: :get
+                = link_to '詳細', "/cards/#{@card.id}/episodes/#{episode.id}", method: :get,class:"btnrad btnrad--blue"
               - if user_signed_in? && current_user.id == episode.card.user.id
                 %li
-                  = link_to '削除', card_episode_path(@card.id,episode.id), method: :delete, data: { confirm: '本当にこのエピソードを削除しますか？' }
+                  = link_to '削除', card_episode_path(@card.id,episode.id), method: :delete,class:"btnrad btnrad--blue", data: { confirm: '本当にこのエピソードを削除しますか？' }
         %hr
 = render 'partial/footer'
