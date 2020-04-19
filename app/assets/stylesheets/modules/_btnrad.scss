@@ -1,0 +1,13 @@
+.btnrad{
+  cursor:pointer;
+  display:inline-block;
+  margin-left:10px;
+  border:1px solid;
+  border-radius: 5px;
+  &__anim{
+    @include anim-color-change-3sred;
+  }
+  &--blue{
+    color:$mainBlue;
+  }
+}

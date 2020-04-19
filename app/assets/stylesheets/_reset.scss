@@ -64,6 +64,14 @@ var {
   font-style:normal;
   font-weight:normal;
 }
+button {
+	background: none;
+	border: none;
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
 ol,
 ul {
   list-style:none;

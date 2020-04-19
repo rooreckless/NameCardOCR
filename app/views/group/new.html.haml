@@ -18,7 +18,7 @@
           = f.label :パスワード,class:"groupnew_inner__new__form"
           = f.password_field :password_confirmation,class:"groupnew_inner__new__form"
           %br/
-          = f.submit "グループを新規作成する",class:"groupnew_inner__new__form"
+          = f.submit "グループを新規作成する",class:"groupnew_inner__new__form btn btnrad btnrad--blue"
     -# グループオーナーであれば実行できる領域(グループ名編集やグループパスワード変更です。)
     -if current_user.owned_group_id!=nil
       %hr
@@ -34,11 +34,11 @@
           %br/
           .groupnew_inner__show__btns
             = f.submit "グループ情報を更新する",class:"groupnew_inner__show__form",id:"groupnew_inner__show__form--updatebtn"
-            #groupnew_inner__show__btns--starteditbtn
+            #groupnew_inner__show__btns--starteditbtn.btnrad.btnrad--blue
               このグループ情報を編集する
-            #groupnew_inner__show__btns--reberteditbtn
+            #groupnew_inner__show__btns--reberteditbtn.btnrad.btnrad--blue
               グループ情報の編集をやめて戻る
-            = link_to 'このグループを削除する', group_path(@group.id), method: :delete, data: { confirm: '本当にこのグループを削除しますか？' },id:"groupnew_inner__show__btns--destroybtn"
+            = link_to 'このグループを削除する', group_path(@group.id), method: :delete, data: { confirm: '本当にこのグループを削除しますか？' },id:"groupnew_inner__show__btns--destroybtn",class:"btn btnrad btnrad--blue"
     -if current_user.group_id == nil
       %hr
       .groupnew_inner__belonginggroup
@@ -57,7 +57,7 @@
           -# = f.text_field :name,class:"groupnew_inner__belonginggroup__form"
           = f.label :パスワード,class:"groupnew_inner__belonginggroup__form groupnew_inner__belonginggroup__input--password"
           = f.password_field :wantbelong_grouppassword,class:"groupnew_inner__belonginggroup__form groupnew_inner__belonginggroup__input--password"
-          = f.submit "グループに所属する",class:"groupnew_inner__belonginggroup__form",id:"groupnew_inner__belonginggroup__form--bellongbtn"
+          = f.submit "グループに所属する",class:"groupnew_inner__belonginggroup__form  btn btnrad btnrad__anim",id:"groupnew_inner__belonginggroup__form--bellongbtn"
     -if current_user.owned_group_id==nil and current_user.group_id != nil
       %hr
       .groupnew_inner__showbelonggroup
@@ -66,5 +66,5 @@
         =text_field_tag :belonginggroupname,"#{current_user.group.name}",{readonly: "true"}
         %p
           (※グループに所属している状態では、新たにグループを作成することはできません。グループを脱退する必要があります。)
-        =link_to "このグループから退会する",resigngroup_group_path(current_user.group_id),method: :post,class:"groupnew_inner__showbelonggroup--resignbtn",data: { confirm: '本当にこのグループから退会しますか？' }
+        =link_to "このグループから退会する",resigngroup_group_path(current_user.group_id),method: :post,class:"groupnew_inner__showbelonggroup--resign btn btnrad btnrad--blue",data: { confirm: '本当にこのグループから退会しますか？' }
 = render 'partial/footer'

@@ -2,7 +2,8 @@
 = render 'layouts/notifications'
 .showcard_outer
   .showcard_left
-    名刺の内容 (登録者 : #{@card.user.nickname} さん)
+    %span.showcard_left__cardform--subtitle--em 名刺の内容
+    (登録した人 : #{@card.user.nickname} さん)
     =form_with model: @card ,class:"showcard_left__cardform",id:"#",local: true,url: {controller: 'cards', action: 'update' } do |f|
       .showcard_left__cardform__row
         =f.label :名前,class:"showcard_left__cardform__row--label"
@@ -28,21 +29,21 @@
           #card__startedit この名刺を編集したい
           #card__rebertedit 編集を適用せず、戻る
           = link_to 'この名刺を削除する', card_path(@card.id), method: :delete, data: { confirm: '本当にこの名刺を削除しますか？' },id:"card__destroybtn"
-    
-    %hr
-    %p 下の欄に記入して、この人との「エピソード」を新たに作成します
-    %hr
-    = form_with model: @episode ,class:"showcard_left__episodeform",id:"#",local: true ,method: :post ,url:  card_episodes_path(@card.id) do |f|
-      = f.label :どんなやりとりをこの人としましたか？,class:"showcard_left__episodeform"
-      = f.text_area :content,class:"showcard_left__episodeform",size: "20x20",style:"resize: none;"
-      = f.label :それはいつのできごとですか？,class:"showcard_left__episodeform"
-      = f.date_field :when,class:"showcard_left__episodeform date-picker"
-      = f.label :それはどこで行いましたか？,class:"showcard_left__episodeform"
-      = f.text_area :where,class:"showcard_left__episodeform", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;"
-      %br/
-      = f.submit "この人とのやり取りを新たに追加する",class:"showcard_left__episodeform"
+    .showcard_left__episode
+      %p.showcard_left__episode--subtitle--em この名刺の人との「エピソード」を新規作成する。
+      %hr
+      = form_with model: @episode ,class:"showcard_left__episode__form",id:"#",local: true ,method: :post ,url:  card_episodes_path(@card.id) do |f|
+        = f.label :どんなやりとりをこの人としましたか？,class:"showcard_left__episode__form"
+        = f.text_area :content,class:"showcard_left__episode__form",size: "20x20",style:"resize: none;"
+        = f.label :それはいつのできごとですか？,class:"showcard_left__episode__form"
+        = f.date_field :when,class:"showcard_left__episode__form date-picker"
+        = f.label :それはどこで行いましたか？,class:"showcard_left__episode__form"
+        = f.text_area :where,class:"showcard_left__episode__form", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;"
+        %br/
+        = f.submit "この人とのやり取りを新たに追加する",class:"showcard_left__episode__form"
   .showcard_right
-    いままでの #{@card.name} さんとのエピソード (全#{@episodes.length}件)
+    %span.showcard_right--subtitle--em いままでの #{@card.name} さんとのエピソード
+    (全#{@episodes.length}件)
     %hr
     = form_with id:"#",local: true do |f|
       .showcard_right__episode

@@ -31,16 +31,16 @@
               / カメラ映像が描画されます。
               %video#video_area.video_area_cls{:autoplay =>"",:style => "background-color: #000"}
               / 押下するとカメラ映像から静止画をキャプチャします。
-              %button#video_area_btn.video_area_cls.animationEmRed{:onclick => "go_step2()"} 撮影 します
+              %button#video_area_btn.video_area_cls.btnrad.btnrad__anim{:onclick => "go_step2()"} 撮影 します
               %p.video_area_cls 上の領域に名刺の全体が映るようにして、「撮影」ボタンを押してください
             .newcamera__step2
               / キャプチャした静止画が描画されます。
               = succeed "\">" do
                 %canvas#capture_image.capture_image_cls
               %br
-              %button#drawCanvas.capture_image_cls.animationEmRed{:onclick => "drawCanvas()"} この画像を使用する
+              %button#drawCanvas.capture_image_cls.btnrad.btnrad__anim{:onclick => "drawCanvas()"} この画像を使用する
               %br
-              %button#rebertpic_btn.capture_image_cls{:onclick => "rebert_step1()"} 撮影をやりなおしたい
+              %button#rebertpic_btn.capture_image_cls.btnrad.btnrad--blue{:onclick => "rebert_step1()"} 撮影をやりなおしたい
               %p.capture_image_cls
                 こちらの画像から文字を認識します。
                 %br

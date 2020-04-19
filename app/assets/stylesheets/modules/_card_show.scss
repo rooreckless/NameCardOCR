@@ -1,6 +1,5 @@
 .showcard_outer{
   width:100%;
-  height:calc(100vh - 150px);
   display:flex;
   justify-content: space-evenly;
   background-color: $backLightGray;
@@ -26,6 +25,11 @@
           width:50%;
         }
       }
+      &--subtitle{
+        &--em{
+          @include fontmixEmBlack;
+        }
+      }
       &__btns{
         display: flex;
         justify-content: space-evenly;
@@ -48,30 +52,35 @@
           border-style: none;
           border:1px solid red;
           border-radius: 5px;
-          animation: color-change 3s linear infinite;
+          @include anim-color-change-3sred;
         }
-        @keyframes color-change {
-          0%,100%{
-            color:black;
-          }
         
-          50%{
-            color:red;
-          }
-          
-        }
       }
     }
-    &__episodeform{
-      display:block;
-      width:90%;
-      margin-left:10px;
+    &__episode{
+      margin-top:1px;
+      border:2px solid $mainBlue;
+      &--subtitle{
+        &--em{
+          @include fontmixEmBlack;
+        }
+      }
+      &__form{
+        display:block;
+        width:90%;
+        margin-left:10px;
+      }
     }
   }
   .showcard_right{
     background-color:$mainWhite;
     width:50%;
     overflow:scroll;
+    &--subtitle{
+      &--em{
+        @include fontmixEmBlack;
+      }
+    }
     &__episode{
       display:flex;
       justify-content: flex-start;
