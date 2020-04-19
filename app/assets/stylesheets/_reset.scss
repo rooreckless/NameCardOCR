@@ -64,14 +64,6 @@ var {
   font-style:normal;
   font-weight:normal;
 }
-button {
-	background: none;
-	border: none;
-	outline: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-}
 ol,
 ul {
   list-style:none;
@@ -126,4 +118,20 @@ img{
 }
 *{
   box-sizing: border-box;
+}
+button {
+	background: none;
+	border: none;
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+input[type="submit"]{
+  background: none;
+	border: none;
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }

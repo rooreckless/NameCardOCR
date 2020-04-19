@@ -35,24 +35,24 @@
         justify-content: space-evenly;
         #card__startedit,#card__rebertedit,#card__destroybtn{
           // width:33%;
-          color:$mainBlue;
-          border:1px solid $mainBlue;
-          border-radius: 5px;
-          margin:0 10px 0 10px;
+          // color:$mainBlue;
+          // border:1px solid $mainBlue;
+          // border-radius: 5px;
+          // margin:0 10px 0 10px;
           font-size:0.8em;
-          &:hover{
-            color:$btnOrange;
-            border:1px solid $btnOrange;
-          }
+          // &:hover{
+          //   color:$btnOrange;
+          //   border:1px solid $btnOrange;
+          // }
         }
         #card__updatebtn,#card__rebertedit{
           visibility:hidden;
         }
         #card__updatebtn{
-          border-style: none;
-          border:1px solid red;
-          border-radius: 5px;
-          @include anim-color-change-3sred;
+          // border-style: none;
+          // border:1px solid red;
+          // border-radius: 5px;
+          // @include anim-color-change-3sred;
         }
         
       }
@@ -69,6 +69,9 @@
         display:block;
         width:90%;
         margin-left:10px;
+        &--aaa{
+          border:1px solid red;
+        }
       }
     }
   }

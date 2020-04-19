@@ -57,7 +57,7 @@
           -# = f.text_field :name,class:"groupnew_inner__belonginggroup__form"
           = f.label :パスワード,class:"groupnew_inner__belonginggroup__form groupnew_inner__belonginggroup__input--password"
           = f.password_field :wantbelong_grouppassword,class:"groupnew_inner__belonginggroup__form groupnew_inner__belonginggroup__input--password"
-          = f.submit "グループに所属する",class:"groupnew_inner__belonginggroup__form  btn btnrad btnrad__anim",id:"groupnew_inner__belonginggroup__form--bellongbtn"
+          = f.submit "グループに所属する",class:"groupnew_inner__belonginggroup__form btn btnrad btnrad__anim",id:"groupnew_inner__belonginggroup__form--bellongbtn"
     -if current_user.owned_group_id==nil and current_user.group_id != nil
       %hr
       .groupnew_inner__showbelonggroup

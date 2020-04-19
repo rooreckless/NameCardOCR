@@ -23,7 +23,7 @@
               = f.text_field :cardaddress,class: "cardindex_body__form--cardaddress",value: card.address,readonly: true
               = f.text_field :cardtel,class: "cardindex_body__form--cardtel",value: card.tel,readonly: true
               = f.text_field :cardmail,class: "cardindex_body__form--cardmail",value: card.email,readonly: true
-              = link_to '詳細', "/cards/#{card.id}", method: :get,class:"cardindex_body__form--link"
+              = link_to '詳細', "/cards/#{card.id}", method: :get,class:"btnrad btnrad--blue"
             %hr
     -if current_user.group != nil
       %hr
@@ -49,7 +49,7 @@
                 = f.text_field :cardaddress,class: "cardindex_body__groupform--cardaddress",value: card.address,readonly: true
                 = f.text_field :cardtel,class: "cardindex_body__groupform--cardtel",value: card.tel,readonly: true
                 = f.text_field :cardmail,class: "cardindex_body__groupform--cardmail",value: card.email,readonly: true
-                = link_to '詳細', "/cards/#{card.id}", method: :get,class:"cardindex_body__groupform--link"
+                = link_to '詳細', "/cards/#{card.id}", method: :get,class:"btnrad btnrad--blue"
               %hr
       %hr
 = render 'partial/footer'

@@ -26,7 +26,7 @@ $(function(){
                 <input type="text" class="searchnormform-inner__results__row--address" value="${cards_inGroup[i].address}" readonly="true">
                 <input type="text" class="searchnormform-inner__results__row--tel" value="${cards_inGroup[i].tel}" readonly="true">
                 <input type="text" class="searchnormform-inner__results__row--email" value="${cards_inGroup[i].email}" readonly="true">
-                <a class="searchnormform-inner__results__row--link" href='/cards/${cards_inGroup[i].id}'>詳細</a>
+                <a class="searchnormform-inner__results__row--link btnrad btnrad--blue" href='/cards/${cards_inGroup[i].id}'>詳細</a>
               </div><hr>
               `;
               }
@@ -44,7 +44,7 @@ $(function(){
                 <input type="text" class="searchnormform-inner__results__row--address" value="${cards_inUser[i].address}" readonly="true">
                 <input type="text" class="searchnormform-inner__results__row--tel" value="${cards_inUser[i].tel}" readonly="true">
                 <input type="text" class="searchnormform-inner__results__row--email" value="${cards_inUser[i].email}" readonly="true">
-                <a class="searchnormform-inner__results__row--link" href='/cards/${cards_inUser[i].id}'>詳細</a>
+                <a class="searchnormform-inner__results__row--link btnrad btnrad--blue" href='/cards/${cards_inUser[i].id}'>詳細</a>
               </div><hr>
               `;
               }
