@@ -10,8 +10,8 @@
         = link_to "#{current_user.group.name}",new_group_path, method: :get,class: 'linkWhite'
       -else
         = link_to '未所属',new_group_path, method: :get,class: 'animationEmRed'
-      = link_to "ログアウト", destroy_user_session_path, method: :delete,class:"linkWhite linkWhitebtn"
+      = link_to "ログアウト", destroy_user_session_path, method: :delete,class:"partial__header__right--logout btnrad btnrad--white"
     -else
       ログインしていません
-      = link_to 'ログインする',new_user_session_path
+      = link_to 'ログインする',new_user_session_path,class:"partial__header__right--logout btnrad btnrad--white"
     =link_to 'このアプリの使い方',"#"
