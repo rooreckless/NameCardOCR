@@ -13,6 +13,12 @@
       color:$btnOrange;
       border:1px solid $btnOrange;
     }
+  }&--white{
+    color:$mainWhite;
+    &:hover{
+      color:$btnOrange;
+      border:1px solid $btnOrange;
+    }
   }
   &--green{
     color:$btnGreen;
