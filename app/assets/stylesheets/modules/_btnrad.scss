@@ -1,0 +1,42 @@
+.btnrad{
+  cursor:pointer;
+  display:inline-block;
+  margin-left:10px;
+  border:1px solid;
+  border-radius: 5px;
+  &--anim{
+    @include anim-color-change-3sred;
+  }
+  &--blue{
+    color:$mainBlue;
+    &:hover{
+      color:$btnOrange;
+      border:1px solid $btnOrange;
+    }
+  }
+  &--green{
+    color:$btnGreen;
+    &:hover{
+      color:$btnOrange;
+      border:1px solid $btnOrange;
+    }
+  }
+}
+input[type="submit"].btnrad{
+  cursor:pointer;
+  display:inline-block;
+  margin-left:10px;
+  border:1px solid;
+  border-radius: 5px;
+  &--anim{
+    @include anim-color-change-3sred;
+  }
+  &--blue{
+    color:$mainBlue;
+    border:1px solid $mainBlue;
+    &:hover{
+      color:$btnOrange;
+      border:1px solid $btnOrange;
+    }
+  }
+}

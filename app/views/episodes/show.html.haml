@@ -11,11 +11,12 @@
       = f.label :場所,class:"episode_inner__form"
       = f.text_area :where,class:"episode_inner__form episode_inner__form--where episode_inner__form--readonly", placeholder:"その時の場所を記入",size: "20x3",style:"resize: none;",value:@episode.where,readonly: true
       %br/
-      = f.submit "このやり取りを更新する",id:"episode_inner__form__updatebtn",class:"episode_inner__form",style:"display:none;"
+      = f.submit "このやり取りを更新する",id:"episode_inner__form__updatebtn",class:"episode_inner__form btnrad btnrad--anim",style:"display:none;"
+    %br/
     .episode_inner__btns
       -if current_user.id ==@episode.user_id
-        #episode_inner__startedit このエピソードを編集したい
-        #episode_inner__rebertedit 編集を適用せず、戻る
-        = link_to 'このエピソードを削除する', card_episode_path(@episode.card_id,@episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' },id:"episode_inner__destroybtn"
-      = link_to '名刺の詳細画面へ戻る', card_path(@episode.card_id), method: :get,id:"episode_inner__backcardshowbtn"
+        #episode_inner__startedit.btnrad.btnrad--blue このエピソードを編集したい
+        #episode_inner__rebertedit.btnrad.btnrad--blue 編集を適用せず、戻る
+        = link_to 'このエピソードを削除する', card_episode_path(@episode.card_id,@episode.id), method: :delete, data: { confirm: '本当にこのやり取りを削除しますか？' },id:"episode_inner__destroybtn",class:"btnrad btnrad--green"
+      = link_to '名刺の詳細画面へ戻る', card_path(@episode.card_id), method: :get,id:"episode_inner__backcardshowbtn",class:"btnrad btnrad--blue"
 = render 'partial/footer'

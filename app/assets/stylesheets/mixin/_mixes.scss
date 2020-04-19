@@ -1,0 +1,20 @@
+@mixin fontmixEmBlack {
+  font-weight: bold;
+  color:$mainBlack;
+}
+@mixin anim-color-change-3sred{
+  animation: color-change 3s linear infinite;
+}
+@keyframes color-change {
+  0%,100%{
+    color:black;
+    border-color: black;
+  }
+
+  50%{
+    color:red;
+    border-color: red;
+  }
+}
+
+

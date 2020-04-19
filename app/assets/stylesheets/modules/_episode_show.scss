@@ -25,55 +25,20 @@
       justify-content: flex-sart;
       margin-left:10px;
     }
-    #episode_inner__form__updatebtn{
-      height:30px;
-      width:200px;
-      animation: color-change 3s linear infinite;
-      border-style: none;
-      border:1px solid black;
-      margin-bottom:10px;
-      border-radius: 5px;
-    }
-    @keyframes color-change {
-      0%,100%{
-        color:black;
-      }
-    
-      50%{
-        color:red;
-      }
-      
-    }
     #episode_inner__startedit,
     #episode_inner__rebertedit,
     #episode_inner__backcardshowbtn{
-      display:block;
       width:100px;
       font-size:0.8em;
-      color:$mainBlue;
-      border:1px solid $mainBlue;
       margin-right:50px;
-      border-radius: 5px;
-      &:hover{
-        border:1px solid $btnOrange;
-        color:$btnOrange;
-      }
     }
     #episode_inner__rebertedit{
       display:none;
     }
     #episode_inner__destroybtn{
-      display:block;
       width:100px;
       font-size:0.8em;
-      color:$btnGreen;
-      border:1px solid $btnGreen;
       margin-right:50px;
-      border-radius: 5px;
-      &:hover{
-        border:1px solid $btnOrange;
-        color:$btnOrange;
-      }
     }
   }
 }
