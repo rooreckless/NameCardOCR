@@ -27,6 +27,11 @@
       border:1px solid $btnOrange;
     }
   }
+  &--google{
+    color:$mainWhite;
+    background-color:$mainBlue;
+    border-color:$mainBlue;
+  }
 }
 input[type="submit"].btnrad{
   cursor:pointer;

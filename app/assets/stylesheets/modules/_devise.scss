@@ -13,6 +13,10 @@
         margin:20px 0 10px 0;
         font-size: 20px;  
       }
+    &__form{
+      border:solid 1px black;
+      padding: 0 0 5px 0;
+      margin: 0 0 10px 0;
       &--mailaddress{
         display:block;
         margin:10px 0 10px 0;
@@ -28,6 +32,22 @@
         margin:10px 0 10px 0;
         font-size: 20px;
       }
+      &--submitbtn{
+        font-size:20px;
+        padding:2px 2px 2px 2px;
+      }
+    }
+    &__googlebtn{
+      padding:2px 5px 2px 5px;
+      text-decoration: none;
+      & a{
+        color:white;
+      }
+      &:hover{
+        background-color:$btnOrange;
+        border:1px solid $btnOrange;
+      }
+    }
     }
     &--link{
       display:block;
@@ -39,9 +59,6 @@
         color:$mainBlue;
       }
     }
-    &--submitbtn{
-      font-size:20px;
-      padding:2px 2px 2px 2px;
-    }
+    
   }
 }
