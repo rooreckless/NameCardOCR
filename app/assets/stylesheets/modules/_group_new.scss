@@ -9,6 +9,7 @@
     height:inherit;
     background-color:$mainWhite;
     padding-top:10px;
+
     &--subtitle{
       font-size: 1.5em;
     }
@@ -44,6 +45,18 @@
           border:1px solid $btnOrange;
           color:$btnOrange;
         }
+      }
+    }
+    &__belonginggroup{
+      border:3px solid;
+      @include anim-bordercolor-change-3sred;
+      &__form{
+        display:block;
+      }
+    }
+    &__new,&__show{
+      &__form{
+        display:block;
       }
     }
   }

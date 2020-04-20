@@ -17,4 +17,17 @@
   }
 }
 
+@mixin anim-bordercolor-change-3sred{
+  animation: bordercolor-change 3s linear infinite;
+}
+@keyframes bordercolor-change {
+  0%,100%{
+    border-color: black;
+  }
+
+  50%{
+    border-color:$mainEmRed;
+  }
+}
+
 

@@ -15,8 +15,10 @@ class GroupController < ApplicationController
         # グループのアップデートが完了した場合のリダイレクト先
         redirect_to new_group_path,notice: 'グループ編集しました。' and return
       else
-        redirect_to new_group_path,allert: 'グループの編集に失敗しました。' and return
+        redirect_to new_group_path,alert: 'エラー グループの編集に失敗しました。' and return
       end
+    else
+      redirect_to new_group_path,alert: 'グループの編集に失敗しました。' and return
     end
   end
   def create
@@ -25,14 +27,17 @@ class GroupController < ApplicationController
       redirect_to root_path,notice: 'グループの作成には、グループのオーナでなく、グループに未所属でないとできません。' and return
     end
     group=Group.new(group_params)
-    if group.save!
-      current_user.update_attributes(group_id: group.id,owned_group_id: group.id)
-      # グループを作ったなら、そのユーザはグループのオーナーになるし、グループに所属するためにupdate_attributesします。
-      redirect_to root_path,notice: 'グループを作成しました。以降に登録する名刺はグループ内で確認できます。参加者する際、設定したパスワードが必要です。' and return
-    else
-      redirect_to new_group_path,allert: 'グループの作成に失敗しました。' and return
+    begin
+      if group.save!
+        current_user.update_attributes(group_id: group.id,owned_group_id: group.id)
+        # グループを作ったなら、そのユーザはグループのオーナーになるし、グループに所属するためにupdate_attributesします。
+        redirect_to root_path,notice: 'グループを作成しました。以降に登録する名刺はグループ内で確認できます。参加者する際、設定したパスワードが必要です。' and return
+      else
+        redirect_to new_group_path,alert: 'エラー グループの作成に失敗しました。' and return
+      end
+    rescue
+      redirect_to new_group_path,alert: 'エラー グループの作成に失敗しました。' and return
     end
-    
   end
   def belonggroup
     if current_user.group_id==nil
@@ -44,8 +49,16 @@ class GroupController < ApplicationController
         if current_user.update(group_id: belonging_params[:wantbelong_groupid].to_i)
           # ログインユーザの所属グループカラムを更新できたならリダイレクトします。
           redirect_to root_path,notice: 'グループに参加しました。以降に登録する名刺はグループ内で確認できます。' and return
+        else
+          # updateメソッドがfalseの場合
+          redirect_to new_group_path,alert: 'エラー グループに参加に失敗しました。' and return
         end
+      else
+        # authenticateメソッドでfalseの場合
+        redirect_to new_group_path,alert: 'グループに参加できません。パスワードが一致していません。' and return
       end
+    else
+      redirect_to new_group_path,alert: 'グループに参加に失敗しました。' and return
     end
   end
   def resigngroup
@@ -55,7 +68,11 @@ class GroupController < ApplicationController
         if current_user.update(group_id: wantbelong_group)
           # ログインユーザの所属グループカラムを更新できたならリダイレクトします。
           redirect_to root_path,notice: 'グループを退会しました。' and return
+        else
+          redirect_to root_path,alert: 'エラー グループの退会に失敗しました。' and return
         end
+    else
+      redirect_to root_path,alert: 'グループの退会に失敗しました。' and return
     end
   end
   private 
