@@ -2,21 +2,26 @@
 .devise_outer
   .devise_body
     %h2.devise_body__login--title ログイン画面
-    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-      .field.devise_body__login--mailaddress
-        = f.label "メールアドレス"
+    .devise_body__login__form
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .field.devise_body__login__form--mailaddress
+          = f.label "メールアドレス"
+          %br/
+          = f.email_field :email, autofocus: true, autocomplete: "email"
+        .field.devise_body__login__form--password
+          = f.label "パスワード"
+          %br/
+          = f.password_field :password, autocomplete: "current-password"
+        - if devise_mapping.rememberable?
+          .field
+            = f.check_box :remember_me
+            = f.label :remember_me
         %br/
-        = f.email_field :email, autofocus: true, autocomplete: "email"
-      .field.devise_body__login--password
-        = f.label "パスワード"
-        %br/
-        = f.password_field :password, autocomplete: "current-password"
-      - if devise_mapping.rememberable?
-        .field
-          = f.check_box :remember_me
-          = f.label :remember_me
-      .actions
-        = f.submit "ログインする",class:"devise_body--submitbtn btnrad btnrad--blue"
-    = link_to 'Googleログイン', user_google_oauth2_omniauth_authorize_path
+        .actions
+          = f.submit "入力内容でログインする",class:"devise_body__login__form--submitbtn btnrad btnrad--blue"
+    .devise_body__login__googlebtn.btnrad.btnrad--google
+      = icon('fab','google',class:'container-main__0auth--google--icon')
+      = link_to 'Googleアカウントでログイン', user_google_oauth2_omniauth_authorize_path
+    %br/
     = render "devise/shared/links"
 = render 'partial/devise_footer'
