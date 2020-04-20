@@ -17,5 +17,6 @@
           = f.label :remember_me
       .actions
         = f.submit "ログインする",class:"devise_body--submitbtn btnrad btnrad--blue"
+    = link_to 'Googleログイン', user_google_oauth2_omniauth_authorize_path
     = render "devise/shared/links"
 = render 'partial/devise_footer'

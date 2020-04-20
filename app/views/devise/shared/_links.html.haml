@@ -13,7 +13,11 @@
 - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
   = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name),class:"devise_body--link"
   %br/
-- if devise_mapping.omniauthable?
-  - resource_class.omniauth_providers.each do |provider|
-    = link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider),class:"devise_body--link"
-    %br/
+-# ---------
+-# この領域はOauthを導入してomniauthableを解禁したので表示されますが、好きな位置にgoogleのログインリンクを置きたいので、コメントアウトしました。
+-# そのリンクはdeviseのsessions/new.html.hamlに置きました。
+  -# - if devise_mapping.omniauthable?
+  -# - resource_class.omniauth_providers.each do |provider|
+    -# = link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider),class:"devise_body--link"
+    -# %br/
+-# ---------
