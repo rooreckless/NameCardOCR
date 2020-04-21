@@ -1,4 +1,23 @@
 $(function(){
+  // ---------------
+  // スマートフォンの場合のみ、card/showの電話ボタンが機能します。
+  // 参考 https://webliker.info/65145/
+  // https://qiita.com/shouchida/items/a057a869003e4e2eb009
+  var ua = navigator.userAgent.toLowerCase();
+  // uaはこのアプリを使っているブラウザの情報が全部小文字で入ります。
+  var isMobile = /iphone/.test(ua)||/android(.+)?mobile/.test(ua);
+  //ua内にiphoneやandroidでmobileが入っているならtrue。PCならisMobileはtrue
+  if (!isMobile) {
+    // 念の為、スマートフォンでこのアプリを使用していないなら、電話アイコンを非表示にします。
+      $('#showcard_left_icon_tel').css('visibility','hidden');
+      // 以下は実際にアイコンを押された場合、(aタグでhref属性値がtel:で始まるもの(^=))イベントを無効にします。
+      // https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors
+      $('a[href^="tel:"]').on('click', function(e) {
+         e.preventDefault();
+         alert('この機能はPCではなく、スマートフォンでご使用になれます。');
+      });
+  }
+  // ---------------
   function buildNormalSearchResult(cards_inGroup,cards_inUser){
     var returnHTML=``;
         if ((cards_inGroup.length > 0)||(cards_inUser.length > 0)){
