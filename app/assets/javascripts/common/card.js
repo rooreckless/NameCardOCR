@@ -1,4 +1,23 @@
 $(function(){
+  // ---------------
+  // スマートフォンの場合のみ、card/showの電話ボタンが機能します。
+  // 参考 https://webliker.info/65145/
+  // https://qiita.com/shouchida/items/a057a869003e4e2eb009
+  var ua = navigator.userAgent.toLowerCase();
+  // uaはこのアプリを使っているブラウザの情報が全部小文字で入ります。
+  var isMobile = /iphone/.test(ua)||/android(.+)?mobile/.test(ua);
+  //ua内にiphoneやandroidでmobileが入っているならtrue。PCならisMobileはtrue
+  if (!isMobile) {
+    // 念の為、スマートフォンでこのアプリを使用していないなら、電話アイコンを非表示にします。
+      $('#showcard_left_icon_tel').css('visibility','hidden');
+      // 以下は実際にアイコンを押された場合、(aタグでhref属性値がtel:で始まるもの(^=))イベントを無効にします。
+      // https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors
+      $('a[href^="tel:"]').on('click', function(e) {
+         e.preventDefault();
+         alert('この機能はPCではなく、スマートフォンでご使用になれます。');
+      });
+  }
+  // ---------------
   function buildNormalSearchResult(cards_inGroup,cards_inUser){
     var returnHTML=``;
         if ((cards_inGroup.length > 0)||(cards_inUser.length > 0)){
@@ -70,7 +89,13 @@ $(function(){
   $('#card_address').attr('placeholder','住所を入力');
   $('#card_tel').attr('placeholder','電話番号を入力');
   $('#card_email').attr('placeholder','メールアドレスを入力');
+
+  $('#showcard_left_icon_company').css('display','none');
+  $('#showcard_left_icon_address').css('display','none');
+  $('#showcard_left_icon_tel').css('display','none');
+  $('#showcard_left_icon_email').css('display','none');
   });
+
   $('#card__rebertedit').on('click',function(){
     // 名刺情報の編集をやめるボタンを押したとき
   $('#card__startedit').css('visibility','visible');
@@ -78,6 +103,12 @@ $(function(){
   $('#card__updatebtn').css('visibility','hidden');
   $('#card__rebertedit').css('visibility','hidden');
   $('#card__destroybtn').css('visibility','visible');
+  
+  $('#showcard_left_icon_company').css('display','block');
+  $('#showcard_left_icon_address').css('display','block');
+  $('#showcard_left_icon_tel').css('display','block');
+  $('#showcard_left_icon_email').css('display','block');
+
   window.location.reload();
   });
   $('#searchnormform-inner__form').on('submit',function(e){

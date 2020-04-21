@@ -1,0 +1,47 @@
+.searchcompany-outer{
+  width:100%;
+  height:calc(100vh - 150px);
+  background-color:$backLightGray;
+  .searchcompany-inner{
+    width:95%;
+    background-color:$mainWhite;
+    margin:0 auto;
+    height:100%;
+    display:block;
+    padding-left:30px;
+    padding-right:30px;
+    &__results{
+      height:100%;
+      &--Group{
+        padding:0 2px 0 2px;
+        height:45%;
+        overflow:scroll;
+        border:1px solid black;
+        margin:2px 0 2px 0;
+      }
+      &--User{
+        padding:0 2px 0 2px;
+        height:45%;
+        overflow:scroll;
+        border:1px solid black;
+        margin:2px 0 2px 0;
+      }
+      &__row{
+        display:flexbox;
+        justify-content: flex-start;
+        &--title{
+          margin-top:5px;
+          text-align: center;
+        }
+        &--number{
+          width:30px;
+          margin-left:5px;
+        }
+        &--link{
+          font-size:0.8em;
+          padding:5px;
+        }
+      }
+    }
+  }
+}
