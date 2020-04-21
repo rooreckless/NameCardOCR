@@ -24,6 +24,17 @@
         &--input{
           width:50%;
         }
+        &__company,&__address,&__email,&__tel{
+          width:50%;
+          display:flex;
+          &--value{
+            width:90%;
+          }
+          &--icon{
+            width:10%;
+            text-align: center;
+          }
+        }
       }
       &--subtitle{
         &--em{

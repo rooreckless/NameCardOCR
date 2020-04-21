@@ -10,19 +10,31 @@
         =f.text_field :name,class:"showcard_left__cardform__row--input",value:@card.name,readonly:"true"
       .showcard_left__cardform__row
         =f.label :会社名,class:"showcard_left__cardform__row--label"
-        =f.text_field :company,class:"showcard_left__cardform__row--input",value:@card.company,readonly:"true"
+        .showcard_left__cardform__row__company
+          =f.text_field :company,class:"showcard_left__cardform__row--input showcard_left__cardform__row__company--value",value:@card.company,readonly:"true"
+          -if @card.company!=(nil or "")
+            =link_to icon('fas','search'),searchcompany_cards_path(searchcompanyname: @card.company,cardid: @card.id), method: :post,class:"showcard_left__cardform__row__company--icon btnrad btnrad--blue",id:"showcard_left_icon_company"
       .showcard_left__cardform__row
         =f.label :部署名,class:"showcard_left__cardform__row--label"
         =f.text_field :department,class:"showcard_left__cardform__row--input",value:@card.department,readonly:"true"
       .showcard_left__cardform__row
         =f.label :住所,class:"showcard_left__cardform__row--label"
-        =f.text_field :address,class:"showcard_left__cardform__row--input",value:@card.address
+        .showcard_left__cardform__row__address
+          =f.text_field :address,class:"showcard_left__cardform__row--input showcard_left__cardform__row__address--value",value:@card.address,readonly:"true"
+          -if @card.address!=(nil or "")
+            =link_to icon('fas','map-marked-alt'),"https://www.google.co.jp/maps/place/#{@card.address}",class:"showcard_left__cardform__row__address--icon btnrad btnrad--blue",id:"showcard_left_icon_address"
       .showcard_left__cardform__row
         =f.label :電話番号,class:"showcard_left__cardform__row--label"
-        =f.text_field :tel,class:"showcard_left__cardform__row--input",value:@card.tel
+        .showcard_left__cardform__row__tel
+          =f.text_field :tel,class:"showcard_left__cardform__row--input showcard_left__cardform__row__tel--value",value:@card.tel,readonly:"true"
+          -if @card.tel!=(nil or "")
+            =link_to icon('fas','phone-volume'),"tel:#{@card.tel}",class:"showcard_left__cardform__row__tel--icon btnrad btnrad--blue",id:"showcard_left_icon_tel"
       .showcard_left__cardform__row
         =f.label :メールアドレス,class:"showcard_left__cardform__row--label"
-        =f.text_field :email,class:"showcard_left__cardform__row--input",value:@card.email
+        .showcard_left__cardform__row__email
+          =f.text_field :email,class:"showcard_left__cardform__row--input showcard_left__cardform__row__email--value",value:@card.email,readonly:"true"
+          -if @card.email != (nil or "")
+            =link_to icon('fas','envelope'),"mailto:#{@card.email}",class:"showcard_left__cardform__row__email--icon btnrad btnrad--blue",id:"showcard_left_icon_email"
       .showcard_left__cardform__btns
         -if current_user.id == @card.user_id
           =f.submit "名刺データを更新",id:"card__updatebtn",class:"btnrad btnrad--anim"

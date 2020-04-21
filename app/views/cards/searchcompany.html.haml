@@ -1,0 +1,27 @@
+= render 'partial/header'
+= render 'layouts/notifications'
+.searchcompany-outer
+  .searchcompany-inner
+    .searchcompany-inner__results
+      -if ((@cards_inGroup.length > 0)||(@cards_inUser.length > 0))
+        .searchcompany-inner__results__row
+          %p.searchcompany-inner__results__row--title
+            会社名が「#{@searchword}」の 検索結果 (全 #{@cards_inGroup.length + @cards_inUser.length} 件)
+          =text_field_tag "No","",readonly: true,class:"searchcompany-inner__results__row--number"
+          =text_field_tag "name","名前",readonly: true,class:"searchcompany-inner__results__row--name"
+          =text_field_tag "company","会社名",readonly: true,class:"searchcompany-inner__results__row--company"
+          =text_field_tag "department","部署名",readonly: true,class:"searchcompany-inner__results__row--deparment"
+          =text_field_tag "address","住所",readonly: true,class:"searchcompany-inner__results__row--address"
+          =text_field_tag "tel","TEL",readonly: true,class:"searchcompany-inner__results__row--tel"
+          =text_field_tag "email","mail",readonly: true,class:"searchcompany-inner__results__row--email"
+        -if @cards_inGroup.length > 0
+          .searchcompany-inner__results--Group
+            所属グループで登録の名刺 #{@cards_inGroup.length}件
+            -@cards_inGroup.each_with_index do |card,index|
+              =render partial: "searchcardresults",locals:{card: card,index: index}
+        -if @cards_inUser.length > 0
+          .searchcompany-inner__results--User
+            あなたが個人として登録済みの名刺 #{@cards_inUser.length}件
+            -@cards_inUser.each_with_index do |card,index|
+              =render partial: "searchcardresults",locals:{card: card,index: index}
+= render 'partial/footer'

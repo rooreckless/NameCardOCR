@@ -1,0 +1,9 @@
+.searchcompany-inner__results__row
+  =text_field_tag "No",index+1,readonly: true,class:"searchcompany-inner__results__row--number"
+  =text_field_tag "name",card.name,readonly: true,class:"searchcompany-inner__results__row--name"
+  =text_field_tag "company",card.company,readonly: true,class:"searchcompany-inner__results__row--company"
+  =text_field_tag "department",card.department,readonly: true,class:"searchcompany-inner__results__row--deparment"
+  =text_field_tag "address",card.address,readonly: true,class:"searchcompany-inner__results__row--address"
+  =text_field_tag "tel",card.tel,readonly: true,class:"searchcompany-inner__results__row--tel"
+  =text_field_tag "email",card.email,readonly: true,class:"searchcompany-inner__results__row--email"
+  =link_to "詳細",card_path(card.id),class:"searchcompany-inner__results__row--link btnrad btnrad--blue"

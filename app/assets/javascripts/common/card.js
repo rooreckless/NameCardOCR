@@ -70,7 +70,13 @@ $(function(){
   $('#card_address').attr('placeholder','住所を入力');
   $('#card_tel').attr('placeholder','電話番号を入力');
   $('#card_email').attr('placeholder','メールアドレスを入力');
+
+  $('#showcard_left_icon_company').css('display','none');
+  $('#showcard_left_icon_address').css('display','none');
+  $('#showcard_left_icon_tel').css('display','none');
+  $('#showcard_left_icon_email').css('display','none');
   });
+
   $('#card__rebertedit').on('click',function(){
     // 名刺情報の編集をやめるボタンを押したとき
   $('#card__startedit').css('visibility','visible');
@@ -78,6 +84,12 @@ $(function(){
   $('#card__updatebtn').css('visibility','hidden');
   $('#card__rebertedit').css('visibility','hidden');
   $('#card__destroybtn').css('visibility','visible');
+  
+  $('#showcard_left_icon_company').css('display','block');
+  $('#showcard_left_icon_address').css('display','block');
+  $('#showcard_left_icon_tel').css('display','block');
+  $('#showcard_left_icon_email').css('display','block');
+
   window.location.reload();
   });
   $('#searchnormform-inner__form').on('submit',function(e){

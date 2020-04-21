@@ -21,7 +21,15 @@ class CardsController < ApplicationController
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
     @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
   end
- 
+  def searchcompany
+    # このアクションはcards/show内の会社検索ボタンを押されたときの結果です。
+    puts"---searchcompany----"
+    puts params
+    @searchword=params[:searchcompanyname]
+    @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where("company like ?", @searchword)
+    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where("company like ?", @searchword)
+    # binding.pry
+  end
   def searchajax
     # GoogleCloudAPIからの認識結果と、先頭から何文字を検索用文字とするかを設定してクラスメソッドへ=>cardsのapiresulthash値に対応する値をつくります。
     searchapiresulthash=Card.createApiresulthash(params[:test],70)

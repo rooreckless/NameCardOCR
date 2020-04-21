@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       post 'searchajax' ,to: 'cards#searchajax'
       get 'searchnormalform' ,to: 'cards#searchnormalform'
       post 'searchnormaltext',to: 'cards#searchnormaltext'
+      post 'searchcompany',to:'cards#searchcompany'
     end
   end
   
