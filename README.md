@@ -4,7 +4,7 @@ NameCardOCR
 ![NameCardOCR_Top](https://user-images.githubusercontent.com/60500414/80069906-1781a500-857d-11ea-8cbb-3f1432da7e62.png)
 # URL
 https://www.app-namecardocr.work/
-# 使い方
+# アプリ使用前に必要なこと
 
 ## 1.basic認証
 id = admin <br>
@@ -31,4 +31,5 @@ pass = 1111
 ログアウト     = このアプリからユーザがログアウトします。
 このアプリの使い方 = このページを表示します。
 
-## 4.このアプリの機能全体
+# このアプリの機能全体
+## <img width="50%" alt="グループ機能ボタン" src="https://user-images.githubusercontent.com/60500414/80086760-21af9d80-8595-11ea-9a6e-8a35b8768509.png">
