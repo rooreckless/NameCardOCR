@@ -60,5 +60,7 @@ pass = 1111
 ## 名刺の詳細情報確認 と 名刺の人とのエピソード登録・確認機能
 <img width="100%" alt="名刺の詳細情報確認機能画面" src="https://user-images.githubusercontent.com/60500414/80094823-e2d41480-85a1-11ea-8d9c-77629eb9a5b6.png">
 
+
 ### 名刺の内容
-<img width="1195" alt="名刺の詳細情報確認機能画面_名刺の内容" src="https://user-images.githubusercontent.com/60500414/80146368-b7c2e280-85ec-11ea-9197-fe35e358dd38.png">
+<img width="70%" alt="名刺の内容" src="https://user-images.githubusercontent.com/60500414/80146691-3029a380-85ed-11ea-8d4b-e2b89ba471f0.png">
+
