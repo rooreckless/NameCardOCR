@@ -7,7 +7,7 @@ https://www.app-namecardocr.work/
 # 使い方
 
 ## 1.basic認証
-id = admin
+id = admin <br>
 pass = 1111
 
 ## 2.ユーザ登録
