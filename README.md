@@ -1,10 +1,10 @@
-#1. AppName
+# 1.AppName
 NameCardOCR
-#2. イメージ
+# 2.イメージ
 ![NameCardOCR_Top](https://user-images.githubusercontent.com/60500414/80069906-1781a500-857d-11ea-8cbb-3f1432da7e62.png)
-#3. URL
+# 3.URL
 https://www.app-namecardocr.work/
-#4. アプリ使用前に必要なこと
+# 4.アプリ使用前に必要なこと
 ## 4-1.デバイスのカメラについて
 このアプリケーションではブラウザで開いているデバイスのカメラを使用します。
 アプリケーションがデバイスのカメラへのアクセスを求められた場合は「許可」を選択してください。
