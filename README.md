@@ -16,6 +16,16 @@ pass = 1111
 
 ## 3.ログイン後のトップページ上部 ユーザステータス表示
 <img width="50%" alt="NameCardOCR_ユーザステータス表示部" src="https://user-images.githubusercontent.com/60500414/80083272-638a1500-8590-11ea-8bb3-755fc08372f1.png">
+
+| Left align | Right align | Center align |
+|:-----------|------------:|:------------:|
+| This       | This        | This         |
+| column     | column      | column       |
+| will       | will        | will         |
+| be         | be          | be           |
+| left       | right       | center       |
+| aligned    | aligned     | aligned      |
+
 |表示|説明|
 |:-:|:-:|
 |アプリロゴマーク|アプリのトップ画面に戻ります。|
