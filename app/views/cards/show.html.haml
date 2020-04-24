@@ -22,7 +22,7 @@
         .showcard_left__cardform__row__address
           =f.text_field :address,class:"showcard_left__cardform__row--input showcard_left__cardform__row__address--value",value:@card.address,readonly:"true"
           -if @card.address!=(nil or "")
-            =link_to icon('fas','map-marked-alt'),"https://www.google.co.jp/maps/place/#{@card.address}",class:"showcard_left__cardform__row__address--icon btnrad btnrad--blue",id:"showcard_left_icon_address"
+            =link_to icon('fas','map-marked-alt'),"https://www.google.co.jp/maps/place/#{@card.address}",class:"showcard_left__cardform__row__address--icon btnrad btnrad--blue",id:"showcard_left_icon_address", target: :_blank
       .showcard_left__cardform__row
         =f.label :電話番号,class:"showcard_left__cardform__row--label"
         .showcard_left__cardform__row__tel
@@ -34,7 +34,7 @@
         .showcard_left__cardform__row__email
           =f.text_field :email,class:"showcard_left__cardform__row--input showcard_left__cardform__row__email--value",value:@card.email,readonly:"true"
           -if @card.email != (nil or "")
-            =link_to icon('fas','envelope'),"mailto:#{@card.email}",class:"showcard_left__cardform__row__email--icon btnrad btnrad--blue",id:"showcard_left_icon_email"
+            =link_to icon('fas','envelope'),"mailto:#{@card.email}",class:"showcard_left__cardform__row__email--icon btnrad btnrad--blue",id:"showcard_left_icon_email", target: :_blank
       .showcard_left__cardform__btns
         -if current_user.id == @card.user_id
           =f.submit "名刺データを更新",id:"card__updatebtn",class:"btnrad btnrad--anim"
