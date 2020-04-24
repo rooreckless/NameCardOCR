@@ -16,10 +16,10 @@ class CardsController < ApplicationController
     # 上は氏名の曖昧検索です。
     # @cards=Card.where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%")
     # 上の「where名前あいまい.where会社あいまい」あいまいand検索あいまいになります。
-    #また、「where名前あいまい.where会社あいまい」の「名前だけ」検索しても大丈夫です。
-    ## @cards=Card.includes(:user).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
+    #また、「where名前あいまい.where会社あいまい」の「名前だけ」検索しても大丈夫です
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
-    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
+    #グループ内名刺検索については、「ユーザが所属しているグループと、カードのグループが一致」が条件。ただし「名刺にあるグループがnil」と「user_idが現在のユーザと一致しているもの(inUserに含まれるから)」を除去します。
+    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where("name like ?", "%#{params[:name]}%").where("company like ?", "%#{params[:company]}%").where("department like ?", "%#{params[:department]}%").where("address like ?", "%#{params[:address]}%").where("tel like ?", "%#{params[:tel]}%").where("email like ?", "%#{params[:email]}%")
   end
   def searchcompany
     # このアクションはcards/show内の会社検索ボタンを押されたときの結果です。
@@ -27,14 +27,14 @@ class CardsController < ApplicationController
     puts params
     @searchword=params[:searchcompanyname]
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where("company like ?", @searchword)
-    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where("company like ?", @searchword)
+    @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where("company like ?", @searchword)
     # binding.pry
   end
   def searchajax
     # GoogleCloudAPIからの認識結果と、先頭から何文字を検索用文字とするかを設定してクラスメソッドへ=>cardsのapiresulthash値に対応する値をつくります。
     searchapiresulthash=Card.createApiresulthash(params[:test],70)
     # puts "searchapiresulthash=#{searchapiresulthash}"
-    @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 20000)..(searchapiresulthash + 20000)).order("created_at DESC")
+    @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 20000)..(searchapiresulthash + 20000)).order("created_at DESC")
     # puts "@cards_inGroup.length=#{@cards_inGroup.length}"
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 20000)..(searchapiresulthash + 20000)).order("created_at DESC")
     # puts "@cards_inUser.length=#{@cards_inUser.length}"
