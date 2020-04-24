@@ -184,5 +184,5 @@ has_many :users
 has_many :cards
 
 # 11.作者
-足立守
+足立守<br>
 メールアドレス t71.adachi.mamoru@gmail.com
