@@ -94,11 +94,11 @@ pass = 1111
 詳細確認ボタンが表示され、エピソードの詳細画面が表示されます。
 (エピソード詳細画面でも、そのエピソードを作成したユーザであればエピソードの編集、削除が可能です)
 
-## 6-6.名刺の検索機能
+## 6-5.名刺の検索機能
 <img width="100%" alt="名刺の検索機能ボタン" src="https://user-images.githubusercontent.com/60500414/80164487-1059a600-8614-11ea-96d1-30dd1ce803e1.png">
 
-+ 「カメラを使用して検索」を選択した場合、<a href="#user-content-6-3名刺の新規登録機能">5-3名刺の新規登録機能</a>と同様にカメラで名刺を撮影して、登録済みの名刺を検索します。
-+ 「文字入力で検索」を選択した場合、<a href="#user-content-6-4-1名刺の内容">5-4-1名刺の内容</a>で表示されている内容・項目で検索します。
++ 「カメラを使用して検索」を選択した場合、<a href="#user-content-6-3名刺の新規登録機能">6-3名刺の新規登録機能</a>と同様にカメラで名刺を撮影して、登録済みの名刺を検索します。
++ 「文字入力で検索」を選択した場合、<a href="#user-content-6-4-1名刺の内容">6-4-1名刺の内容</a>で表示されている内容・項目で検索します。
 
 ## 6-6.名刺一覧表示
 <img width="70%" alt="登録済み名刺一覧表示ボタン" src="https://user-images.githubusercontent.com/60500414/80169291-050c7780-8620-11ea-8569-b2e5f6eb3f7c.png">
@@ -124,7 +124,64 @@ pass = 1111
 # 9.今後の課題
 
 + GoogleCloudPlatform の NaturalLanguageAPIを利用し、OCRでの読み取り文字から意図解釈し入力フォームへの自動入力
-+ Rails ActiveCableを使用したビデオチャット機能
++ ページ内にチャットボットを搭載し、使用方法やこのアプリについての問い合わせを受け付ける体制の構築
++ Rails ActiveCableを使用したビデオチャット機能の構築
+
+# 10.DB設計
+## usersテーブル
+|Column|Type|Options|
+|------|----|-------|
+|nickname|string|null: false|
+|email|string|unique: true, null: false|
+|password|string|null: false|
+|owned_group_id|integer||
+|group_id|integer|foreign_key:true|
+## Association
+has_many :cards,dependent: :destroy
+has_many :episodes,dependent: :destroy
+belongs_to  :group, optional: true
+
+## cardsテーブル
+|Column|Type|Options|
+|------|----|-------|
+|name|string|null: false|
+|company|string|null: false|
+|department|string||
+|address|string||
+|tel|string||
+|email|string||
+|apiresulttext|text||
+|apiresulthash|integer|
+|user_id|integer|null:false, foreign_key: true|
+|group_id|integer|foreign_key:true|
+## Association
+belongs_to :user
+has_many :episodes, dependent: :destroy
+belongs_to :group, optional: true
+
+## episodesテーブル
+|Column|Type|Options|
+|------|----|-------|
+|content|text|null: false|
+|when|string||
+|where|string||
+|card_id|integer|null:false, foreign_key: true|
+
+## Association
+belongs_to : card
+belongs_to :user
+
+## groupsテーブル
+|Column|Type|Options|
+|------|----|-------|
+|name|string|null: false|
+|user_id|integer|null: false, foreign_key: true|
+|password_digest|string|null: false, foreign_key: true|
+
+## Association
+has_secure_password
+has_many :users
+has_many :cards
 
 # 11.作者
 足立守
