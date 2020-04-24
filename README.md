@@ -24,7 +24,7 @@ pass = 1111
 <img alt="NameCardOCR_ユーザ登録部" src="https://user-images.githubusercontent.com/60500414/80081927-916e5a00-858e-11ea-8ac2-81e5b60b3969.png" width="50%">
 新規にユーザ登録をするか、googleアカウントをお持ちの方は「googleアカウントでログイン」してください。
 
-# 6.このアプリの機能全体
+# 6.使い方と全機能
 
 ## 6-1.ログイン後のトップページ上部 ユーザステータス表示
 <img width="100%" alt="NameCardOCR_ユーザステータス表示部" src="https://user-images.githubusercontent.com/60500414/80083272-638a1500-8590-11ea-8bb3-755fc08372f1.png">
@@ -76,7 +76,7 @@ pass = 1111
 
 |アイコン|表示           |
 |:---------|:---------|
-|虫めがねアイコン|会社名での名刺の再検索(ログインユーザが参加しているグループ内、および個人所有名刺内)
+|虫めがねアイコン|会社名での名刺の再検索(ログインユーザが参加しているグループ内、および個人所有名刺内)|
 |地図アイコン|住所をgooglemapで表示|
 |電話アイコン|(スマートフォンで利用の場合のみ利用可)デバイス標準の電話アプリが起動。表示されている電話番号に発信できます。|
 |メールアイコン|デバイス標準のメールアプリが起動。表示されているメールアドレスへのメールを作成できます。|
@@ -103,3 +103,29 @@ pass = 1111
 ## 6-6.名刺一覧表示
 <img width="70%" alt="登録済み名刺一覧表示ボタン" src="https://user-images.githubusercontent.com/60500414/80169291-050c7780-8620-11ea-8569-b2e5f6eb3f7c.png">
 登録済みの名刺を一覧表示します
+
+# 7.このアプリの特徴
+
++ GoogleCloudPlatform の VisionAPIを使用した、OCRでの画像からの文字認識の使用
++ javascriptを使用してデバイスのカメラを使用し、撮影した名刺の画像を文字認識に利用
++ 前項の撮影した画像自体を保存するのではなく、文字認識結果を保存して名刺を検索<br>このとき、認識した文字列の文字コードを利用して検索範囲を縮小し検索高速化を図る
++ googleのOAuth認証を使用したログイン
++ グループ作成時のパスワードの暗号化(bycryptGem使用)
++ JQueryを使用してなるべく一つのビューで名刺、エピソードのCRUDができるようにしたこと
+
+# 8.開発環境
+|項目|説明           |
+|:---------|:---------|
+|フレームワーク|ruby on rails|
+|使用言語|Haml SCSS Ruby javascript jQuery|
+|インフラ|AWS EC2(nginx,unicorn,mysql) ELB Route53|
+|他|GitHub VisualStudioCode|
+
+# 9.今後の課題
+
++ GoogleCloudPlatform の NaturalLanguageAPIを利用し、OCRでの読み取り文字から意図解釈し入力フォームへの自動入力
++ Rails ActiveCableを使用したビデオチャット機能
+
+# 11.作者
+足立守
+メールアドレス t71.adachi.mamoru@gmail.com
