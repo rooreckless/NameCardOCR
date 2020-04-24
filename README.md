@@ -4,6 +4,7 @@ NameCardOCR
 ![NameCardOCR_Top](https://user-images.githubusercontent.com/60500414/80069906-1781a500-857d-11ea-8cbb-3f1432da7e62.png)
 # 3.URL
 https://www.app-namecardocr.work/
+
 # 4.アプリ使用前に必要なこと
 ## 4-1.デバイスのカメラについて
 このアプリケーションではブラウザで開いているデバイスのカメラを使用します。
@@ -89,4 +90,10 @@ pass = 1111
 
 ## 5-5.名刺の検索機能
 <img width="100%" alt="名刺の検索機能ボタン" src="https://user-images.githubusercontent.com/60500414/80164487-1059a600-8614-11ea-96d1-30dd1ce803e1.png">
-<a href="#user-content-5-3名刺の新規登録機能">Jump</a>
+
++ 「カメラを使用して検索」を選択した場合、<a href="#user-content-5-3名刺の新規登録機能">5-3名刺の新規登録機能</a>と同様にカメラで名刺を撮影して、登録済みの名刺を検索します。
++ 「文字入力で検索」を選択した場合、<a href="#user-content-5-4-1名刺の内容">5-4-1名刺の内容</a>で表示されている内容・項目で検索します。
+
+## 5-6.名刺一覧表示
+<img width="70%" alt="登録済み名刺一覧表示ボタン" src="https://user-images.githubusercontent.com/60500414/80169291-050c7780-8620-11ea-8569-b2e5f6eb3f7c.png">
+登録済みの名刺を一覧表示します
