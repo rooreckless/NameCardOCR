@@ -1,40 +1,40 @@
-.cardindex_outer{
-  width:100%;
-  height:calc(100vh - 150px);
-  background-color:$backLightGray;
-  .cardindex_body{
-    width:95%;
-    background-color:$mainWhite;
-    margin:0 auto;
-    height:100%;
-    display:block;
-    padding-left:30px;
-    padding-right:30px;
-    &__form{  
-      padding:0 2px 0 2px;
-      height:49%;
-      border:1px solid black;
-      &--cardid{
-        width:30px;
-      }
-      &__body{
-        overflow: scroll;
+// .cardindex_outer{
+//   width:100%;
+//   height:calc(100vh - 150px);
+//   background-color:$backLightGray;
+//   .cardindex_body{
+//     width:95%;
+//     background-color:$mainWhite;
+//     margin:0 auto;
+//     height:100%;
+//     display:block;
+//     padding-left:30px;
+//     padding-right:30px;
+//     &__form{  
+//       padding:0 2px 0 2px;
+//       height:49%;
+//       border:1px solid black;
+//       &--cardid{
+//         width:30px;
+//       }
+//       &__body{
+//         overflow: scroll;
         
-        &__more{
-          margin-top:3px;
-        }
-      }
-    }
-    &__groupform{
-      padding:0 2px 0 2px;
-      height:49%;
-      border:1px solid black;
-      &--cardid{
-        width:30px;
-      }
-      &__body{
-        overflow: scroll;
-      }
-    }
-  }
-}
+//         &__more{
+//           margin-top:3px;
+//         }
+//       }
+//     }
+//     &__groupform{
+//       padding:0 2px 0 2px;
+//       height:49%;
+//       border:1px solid black;
+//       &--cardid{
+//         width:30px;
+//       }
+//       &__body{
+//         overflow: scroll;
+//       }
+//     }
+//   }
+// }

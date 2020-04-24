@@ -35,8 +35,7 @@
               %p.video_area_cls 上の領域に名刺の全体が映るようにして、「撮影」ボタンを押してください
             .newcamera__step2
               / キャプチャした静止画が描画されます。
-              = succeed "\">" do
-                %canvas#capture_image.capture_image_cls
+              %canvas#capture_image.capture_image_cls
               %br
               %button#drawCanvas.capture_image_cls.btnrad.btnrad--anim{:onclick => "drawCanvas()"} この画像を使用する
               %br
@@ -85,7 +84,7 @@
                             = f.text_field :email,class:"drawCanvas__after drawCanvas__after--input", placeholder:"メールアドレスを入力"
                           = f.hidden_field :apiresulttext,class:"drawCanvas__after drawCanvas__after__form",id: "hiddenapiresulttext"
                           = f.hidden_field :apiresulthash,class:"drawCanvas__after drawCanvas__after__form"
-                          = f.submit "名刺データを作成",id:"drawCanvas__after__form--submitbtn btnrad btnrad__anim",class:"drawCanvas__after"
+                          = f.submit "名刺データを作成",id:"drawCanvas__after__form--submitbtn",class:"drawCanvas__after btnrad btnrad--anim"
 = render 'partial/footer'
 = javascript_include_tag 'specific/newcamera'
 // 上の書き方ではこのビューで読み込むjsファイルを指定しています。application.jsではcommonディレクトリの内容はすでに読み込んでますが、このビューだけの追加で読み込むjsの指定です。

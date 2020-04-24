@@ -1,13 +1,15 @@
 class CardsController < ApplicationController
   before_action :authenticate_user!, except: [:top]
   def index
-    @cards = Card.includes(:user).where(user_id: current_user.id).order("created_at DESC")
+    @cards_inUser = Card.includes(:user).where(user_id: current_user.id).order("created_at DESC")
     @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).order("created_at DESC")
     if current_user.group != nil
       @groupname=current_user.group.name
     else
       @groupname="未所属"
     end
+    puts "@cards_inUser.length=#{@cards_inUser.length}"
+    puts "@cards_inGroup.length=#{@cards_inGroup.length}"
   end
 
   def searchnormaltext
