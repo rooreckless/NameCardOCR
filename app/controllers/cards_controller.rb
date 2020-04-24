@@ -33,14 +33,19 @@ class CardsController < ApplicationController
   def searchajax
     # GoogleCloudAPIからの認識結果と、先頭から何文字を検索用文字とするかを設定してクラスメソッドへ=>cardsのapiresulthash値に対応する値をつくります。
     searchapiresulthash=Card.createApiresulthash(params[:test],70)
-    # puts "searchapiresulthash=#{searchapiresulthash}"
+    puts "searchapiresulthash=#{searchapiresulthash}"
+    logger.info "searchapiresulthash=#{searchapiresulthash}"
+    puts "params = #{params[:test]}"
+    logger.info "params = #{params[:test]}"
     @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
     # 上のGroup内重複候補の検索結果(配列化)に対し、apiresulttextの最初の70文字のレーベンシュタイン距離が大きい場合、配列から除去します。
     @cards_inGroup.reject! {|groupcard| Card.LLength(params[:test],groupcard.apiresulttext)}
-    # puts "@cards_inGroup.length=#{@cards_inGroup.length}"
+    puts "@cards_inGroup.length=#{@cards_inGroup.length}"
+    logger.info "@cards_inGroup.length=#{@cards_inGroup.length}"
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
     @cards_inUser.reject! {|usercard| Card.LLength(params[:test],usercard.apiresulttext)}
-    # puts "@cards_inUser.length=#{@cards_inUser.length}"
+    puts "@cards_inUser.length=#{@cards_inUser.length}"
+    logger.info "@cards_inUser.length=#{@cards_inUser.length}"
   end
   def createajax
     require 'google/cloud/language' #APIを使う

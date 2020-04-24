@@ -116,7 +116,7 @@ function drawCanvas(){
 
   var splited_canvasbase64 = canvasbase64.split(",");
  
-
+  console.log("drawCanvas");
   // ajax通信開始(コントローラ→api→返答をもらいます)
   $.ajax({
     url: '/cards/createajax',
