@@ -132,7 +132,7 @@ pass = 1111
 
 + GoogleCloudPlatform の NaturalLanguageAPIを利用し、OCRでの読み取り文字から意図解釈し入力フォームへの自動入力
 + ページ内にチャットボットを搭載し、使用方法やこのアプリについての問い合わせを受け付ける体制の構築
-+ Rails ActiveCableを使用したビデオチャット機能の構築
++ ビデオチャット機能の構築
 
 # 10.DB設計
 ## usersテーブル
