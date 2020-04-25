@@ -33,7 +33,7 @@ class CardsController < ApplicationController
   end
   def searchajax
     # GoogleCloudAPIからの認識結果と、先頭から何文字を検索用文字とするかを設定してクラスメソッドへ=>cardsのapiresulthash値に対応する値をつくります。
-    searchapiresulthash=Card.createApiresulthash(params[:test],70)
+    searchapiresulthash=Card.createApiresulthash(params[:test])
     puts "searchapiresulthash=#{searchapiresulthash}"
     logger.info "searchapiresulthash=#{searchapiresulthash}"
     puts "params = #{params[:test]}"
@@ -141,7 +141,7 @@ class CardsController < ApplicationController
       # resNajsoned= JSON.parse(resNa.body)
   end
   def createdata
-    params[:apiresulthash] = Card.createApiresulthash(params[:apiresulttext],70)
+    params[:apiresulthash] = Card.createApiresulthash(params[:apiresulttext])
     @card = Card.new(card_params)
     if @card.save
       redirect_to card_path(@card.id),notice: '名刺データを作成しました。' and return
