@@ -2,6 +2,7 @@ class CardsController < ApplicationController
   before_action :authenticate_user!, except: [:top]
   def index
     @cards_inUser = Card.includes(:user).where(user_id: current_user.id).order("created_at DESC")
+    Card.calc_samelate('test','test2222')
     @cards_inGroup=Card.includes(:group).where(group_id: current_user.group_id).order("created_at DESC")
     if current_user.group != nil
       @groupname=current_user.group.name
@@ -39,11 +40,11 @@ class CardsController < ApplicationController
     logger.info "params = #{params[:test]}"
     @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
     # 上のGroup内重複候補の検索結果(配列化)に対し、apiresulttextの最初の70文字のレーベンシュタイン距離が大きい場合、配列から除去します。
-    @cards_inGroup.reject! {|groupcard| Card.LLength(params[:test],groupcard.apiresulttext)}
+    @cards_inGroup.reject! {|groupcard| Card.calc_samelate(params[:test],groupcard.apiresulttext)}
     puts "@cards_inGroup.length=#{@cards_inGroup.length}"
     logger.info "@cards_inGroup.length=#{@cards_inGroup.length}"
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
-    @cards_inUser.reject! {|usercard| Card.LLength(params[:test],usercard.apiresulttext)}
+    @cards_inUser.reject! {|usercard| Card.calc_samelate(params[:test],usercard.apiresulttext)}
     puts "@cards_inUser.length=#{@cards_inUser.length}"
     logger.info "@cards_inUser.length=#{@cards_inUser.length}"
   end

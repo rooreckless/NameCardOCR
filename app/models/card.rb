@@ -1,4 +1,5 @@
 class Card < ApplicationRecord
+  include Amatch
   validates :name, :company , presence: true
   belongs_to :user
   belongs_to :group, optional: true
@@ -26,6 +27,35 @@ class Card < ApplicationRecord
     if Text::Levenshtein.distance(basisWord.slice(1..70), targetWord.slice(1..70)) > 20
       return true
     else
+      return false
+    end
+  end
+
+  def self.calc_samelate(basisWord,compairWord)
+    require 'amatch'
+    # このメソッドは引数の2つの文字のレーベンシュタイン距離を計算し、規定数以上の場合、trueを返します。
+    # ---デバッグ用表示部分
+    puts "basisWord = #{basisWord}"
+    logger.info "basisWord = #{basisWord}"
+    puts "compairWord = #{compairWord}"
+    logger.info "compairWord = #{compairWord}"
+    top_basisWord=basisWord.slice(0..69)
+    top_compairWord=compairWord.slice(0..69)
+    puts "-----amatch-----"
+    logger.info "-----amatch-----"
+    puts "top_basisWord = #{top_basisWord} top_basisWord.length = #{top_basisWord.length}"
+    logger.info "top_basisWord = #{top_basisWord}"
+    puts "top_compairWord = #{top_compairWord}"
+    logger.info "top_compairWord = #{top_compairWord}" 
+    puts "PairDistance.new(top_basisWord).match(top_compairWord) = #{PairDistance.new(top_basisWord).match(top_compairWord)}"
+    logger.info "PairDistance.new(top_basisWord).match(top_compairWord) = #{PairDistance.new(top_basisWord).match(top_compairWord)}"
+    if PairDistance.new(top_basisWord).match(top_compairWord) < 0.8
+      puts "---match---"
+      logger.info "---match---"
+      return true
+    else
+      puts "---un---match---"
+      logger.info "---un---match---"
       return false
     end
   end

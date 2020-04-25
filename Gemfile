@@ -80,6 +80,9 @@ gem 'haml-rails'
 gem 'bcrypt'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
-gem 'text'
+# textでは本番環境で動かない。
+# https://madogiwa0124.hatenablog.com/entry/2019/08/18/134213
+# gem 'text', '~> 1.3', '>= 1.3.1'
+gem 'amatch', '~> 0.4.0'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
