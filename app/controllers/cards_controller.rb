@@ -39,13 +39,13 @@ class CardsController < ApplicationController
     puts "params = #{params[:test]}"
     logger.info "params = #{params[:test]}"
     @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
-    # 上のGroup内重複候補の検索結果(配列化)に対し、apiresulttextの最初の70文字のレーベンシュタイン距離が大きい場合、配列から除去します。
+    # 上のGroup内重複候補の検索結果(配列化)に対し、apiresulttextの最初の70文字のレーベンシュタイン距離が大きい(=一致度が低い)場合trueが返るので、配列から除去します。
     @cards_inGroup.reject! {|groupcard| Card.calc_samelate(params[:test],groupcard.apiresulttext)}
-    puts "@cards_inGroup.length=#{@cards_inGroup.length}"
+    # puts "@cards_inGroup.length=#{@cards_inGroup.length}"
     logger.info "@cards_inGroup.length=#{@cards_inGroup.length}"
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
     @cards_inUser.reject! {|usercard| Card.calc_samelate(params[:test],usercard.apiresulttext)}
-    puts "@cards_inUser.length=#{@cards_inUser.length}"
+    # puts "@cards_inUser.length=#{@cards_inUser.length}"
     logger.info "@cards_inUser.length=#{@cards_inUser.length}"
   end
   def createajax

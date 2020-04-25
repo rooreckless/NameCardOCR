@@ -17,46 +17,18 @@ class Card < ApplicationRecord
     return temp_sum
   end
 
-  def self.LLength(basisWord,targetWord)
-    require 'text'
-    # このメソッドは引数の2つの文字のレーベンシュタイン距離を計算し、規定数以上の場合、trueを返します。
-    # ---デバッグ用表示部分
-    # puts "----self.Levenshtein----"
-    # puts "basisWord-.slice(1..100) = #{basisWord.slice(1..70)}"
-    # puts "targetWord.slice(1..100) = #{targetWord.slice(1..70)}"
-    # puts "Lditance(0..100)=#{Text::Levenshtein.distance(basisWord.slice(1..70), targetWord.slice(1..70))}"
-    if Text::Levenshtein.distance(basisWord.slice(1..70), targetWord.slice(1..70)) > 20
-      return true
-    else
-      return false
-    end
-  end
-
   def self.calc_samelate(basisWord,compairWord)
     require 'amatch'
     # このメソッドは引数の2つの文字のレーベンシュタイン距離を計算し、規定数以上の場合、trueを返します。
-    # ---デバッグ用表示部分
-    puts "basisWord = #{basisWord}"
-    logger.info "basisWord = #{basisWord}"
-    puts "compairWord = #{compairWord}"
-    logger.info "compairWord = #{compairWord}"
+    # 比較の基準文字と対象文字を先頭から、定数分まで切り出します。
     top_basisWord=basisWord.slice(0..ReadCardStrLength-1)
     top_compairWord=compairWord.slice(0..ReadCardStrLength-1)
-    puts "-----amatch-----"
-    logger.info "-----amatch-----"
-    puts "top_basisWord = #{top_basisWord} top_basisWord.length = #{top_basisWord.length}"
-    logger.info "top_basisWord = #{top_basisWord}"
-    puts "top_compairWord = #{top_compairWord}"
-    logger.info "top_compairWord = #{top_compairWord}" 
-    puts "PairDistance.new(top_basisWord).match(top_compairWord) = #{PairDistance.new(top_basisWord).match(top_compairWord)}"
-    logger.info "PairDistance.new(top_basisWord).match(top_compairWord) = #{PairDistance.new(top_basisWord).match(top_compairWord)}"
+    # レーベンシュタイン距離にて一致度が0.8以下
+    # puts "PairDistance.new(top_basisWord).match(top_compairWord) = #{PairDistance.new(top_basisWord).match(top_compairWord)}"
     if PairDistance.new(top_basisWord).match(top_compairWord) < 0.8
-      puts "---match---"
-      logger.info "---match---"
+      # 一致度が0.8以下の場合、そのtrueを返します。
       return true
     else
-      puts "---un---match---"
-      logger.info "---un---match---"
       return false
     end
   end
