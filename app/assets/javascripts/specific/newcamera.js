@@ -111,10 +111,11 @@ function rebert_step1(){
 function pagereload(){
   location.reload();
 }
-// ステップ4へ移行するメソッド。
+// ステップ4(登録フォームの表示)へ移行するメソッド。
 function go_step4(){
   $('.newcamera__step3__warning').css('display','none');
   $('.newcamera__step4').css('display','block');
+  
 }
 // 使用する写真が決定したときの挙動(ステップ2からステップ3へ移行)
 function drawCanvas(){
@@ -143,9 +144,15 @@ function drawCanvas(){
     $('.newcamera__step3').css('display','block');
     $('#hiddenapiresulttext').val(data.hashdescription);
     $('#drawCanvas').css('display','none');
+    //フォームの内容にあらかじめいれられる内容を記入します(NLApiの結果です。あてはまらなくてnullでも可です。)
+    //このフォームは、重複登録の可能性がある場合は、値は入れるものの非表示にし、重複ではないと確認されてから表示されます。
+    $('#name').val(data.nlResultPerson);
+    $('#company').val(data.nlResultOrg);
+    $('#address').val(data.nlResultAddress);
+    $('#tel').val(data.nlResultPhone);
     $.ajax({
       // 2段目のajax通信
-      // ここは新しく名刺を作る際に検索をかけて、グループ内に同様な名刺がないかを調べます。
+      // ここは新しく名刺を作る際に検索をかけて、グループ内に同様な名刺がないかを調べます。(重複チェック)
       // url: '/cards/searchbeforecreatecard',
       url: '/cards/searchajax',
       type: "POST",

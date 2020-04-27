@@ -63,6 +63,7 @@
                         %p#drawCanvas__after--message.drawCanvas__after
                           %span.drawCanvas__after--red 下の欄に書き写してください。
                           この内容で、「名刺データを作成」ボタンを押して保存します。
+                          %span.drawCanvas__after--red (すでにOCRで入力されている内容も編集可能です。)
                         = form_with model: @card ,class:"drawCanvas__after drawCanvas__after__form",id:"#",local: true,url: {controller: 'cards', action: 'createdata' } do |f|
                           .drawCanvas__after.drawCanvas__after__form__row
                             = f.label :名前,class:"drawCanvas__after drawCanvas__after__form--label"
@@ -84,7 +85,7 @@
                             = f.text_field :email,class:"drawCanvas__after drawCanvas__after--input", placeholder:"メールアドレスを入力"
                           = f.hidden_field :apiresulttext,class:"drawCanvas__after drawCanvas__after__form",id: "hiddenapiresulttext"
                           = f.hidden_field :apiresulthash,class:"drawCanvas__after drawCanvas__after__form"
-                          = f.submit "名刺データを作成",id:"drawCanvas__after__form--submitbtn",class:"drawCanvas__after btnrad btnrad--anim"
+                          = f.submit "名刺データを作成",id:"drawCanvas__after__form--submitbtn",class:"drawCanvas__after btnrad btnrad--anim",data: { confirm: 'この内容で名刺を作成してよろしいでしょうか？' }
 = render 'partial/footer'
 = javascript_include_tag 'specific/newcamera'
 // 上の書き方ではこのビューで読み込むjsファイルを指定しています。application.jsではcommonディレクトリの内容はすでに読み込んでますが、このビューだけの追加で読み込むjsの指定です。
