@@ -118,6 +118,7 @@ pass = 1111
 + GoogleCloudPlatform の VisionAPIを使用した、OCRでの画像からの文字認識の使用
 + javascriptを使用してデバイスのカメラを使用し、撮影した名刺の画像を文字認識に利用
 + 前項について、撮影した画像自体を保存するのではなく、文字認識結果を保存して名刺を検索<br>このとき、認識した文字列の文字コードを利用して検索範囲を縮小し、レーベンシュタイン距離を用いた文字検索をして検索高速化を図る
++ VisionAPIで認識した文字を、GoogleCloudPlatformのNaturalLanguageAPIで意図解釈し、名刺新規作成用フォームに自動入力
 + googleのOAuth認証を使用したログイン
 + グループ作成時のパスワードの暗号化(bycryptGem使用)
 + JQueryを使用してなるべく一つのビューで名刺、エピソードのCRUDができるようにしたこと
@@ -132,7 +133,7 @@ pass = 1111
 
 # 9.今後の課題
 
-+ GoogleCloudPlatform の NaturalLanguageAPIを利用し、OCRでの読み取り文字から意図解釈し入力フォームへの自動入力
++ ~~GoogleCloudPlatform の NaturalLanguageAPIを利用し、OCRでの読み取り文字から意図解釈し入力フォームへの自動入力~~
 + ページ内にチャットボットを搭載し、使用方法やこのアプリについての問い合わせを受け付ける体制の構築
 + ビデオチャット機能の構築
 
