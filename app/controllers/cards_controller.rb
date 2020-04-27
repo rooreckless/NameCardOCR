@@ -35,18 +35,14 @@ class CardsController < ApplicationController
     # GoogleCloudAPIからの認識結果と、先頭から何文字を検索用文字とするかを設定してクラスメソッドへ=>cardsのapiresulthash値に対応する値をつくります。
     searchapiresulthash=Card.createApiresulthash(params[:test])
     puts "searchapiresulthash=#{searchapiresulthash}"
-    logger.info "searchapiresulthash=#{searchapiresulthash}"
     puts "params = #{params[:test]}"
-    logger.info "params = #{params[:test]}"
     @cards_inGroup=Card.includes(:group).includes(:user).where(group_id: current_user.group_id).where.not(group_id: nil).where.not(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
     # 上のGroup内重複候補の検索結果(配列化)に対し、apiresulttextの最初の70文字のレーベンシュタイン距離が大きい(=一致度が低い)場合trueが返るので、配列から除去します。
     @cards_inGroup.reject! {|groupcard| Card.calc_samelate(params[:test],groupcard.apiresulttext)}
     # puts "@cards_inGroup.length=#{@cards_inGroup.length}"
-    logger.info "@cards_inGroup.length=#{@cards_inGroup.length}"
     @cards_inUser=Card.includes(:user).where(user_id: current_user.id).where(apiresulthash: (searchapiresulthash - 40000)..(searchapiresulthash + 40000)).order("created_at DESC").to_a
     @cards_inUser.reject! {|usercard| Card.calc_samelate(params[:test],usercard.apiresulttext)}
     # puts "@cards_inUser.length=#{@cards_inUser.length}"
-    logger.info "@cards_inUser.length=#{@cards_inUser.length}"
   end
   def createajax
     require 'google/cloud/language' #APIを使う
@@ -112,33 +108,94 @@ class CardsController < ApplicationController
       # 上の@hashdescriptionがOCRの結果の文字列です。newcameraビューで表示している内容です。
 
       #----------------------------ここまでが、画像からOCR。下はテキストから構文解析
-      # url = Rails.application.credentials[:Google][:NaturalLanguage_api_key]
-      # #こちらはGCPのNaturalLanguageAPIの方のキーです。
+      url = Rails.application.credentials[:Google][:NaturalLanguage_api_key]
+      #こちらはGCPのNaturalLanguageAPIの方のキーです。
       
-      # #Net::HTTPでAPIへリクエストを発行する
-      # uri           = URI.parse(url)
-      # https         = Net::HTTP.new(uri.host, uri.port)
-      # https.use_ssl = true
+      #Net::HTTPでAPIへリクエストを発行する
+      uri           = URI.parse(url)
+      https         = Net::HTTP.new(uri.host, uri.port)
+      https.use_ssl = true
 
-      # #リクエストにパラメーターをセットする
-      # req                 = Net::HTTP::Post.new(uri.request_uri)
-      # req["Content-Type"] = "application/json"
-      # text=@hashdescription
-      # param               = {
-      #   "document": {
-      #       "type": "PLAIN_TEXT",
-      #       "language": "JA",
-      #       "content": text
-      #   },
-      #   "encodingType": "UTF8"
-      # }
-      # req.body = param.to_json
-      # resNa      = https.request(req)
-      # resNa.body.force_encoding("UTF-8")
-      # puts "----------"
+      #リクエストにパラメーターをセットする
+      req                 = Net::HTTP::Post.new(uri.request_uri)
+      req["Content-Type"] = "application/json"
+      text=@hashdescription
+      param               = {
+        "document": {
+            "type": "PLAIN_TEXT",
+            "language": "JA",
+            "content": text
+        },
+        "encodingType": "UTF8"
+      }
+      req.body = param.to_json
+      resNa      = https.request(req)
+      resNa.body.force_encoding("UTF-8")
+      # puts "-----NaturalLanguageAPI-----"
+      resNajsoned= JSON.parse(resNa.body)
       # puts resNa.body
-      # puts resNa.body.class
-      # resNajsoned= JSON.parse(resNa.body)
+      # puts resNa.body.class #=>string
+      # puts resNajsoned.class #=>Hash
+      # puts resNajsoned
+      # puts resNajsoned["entities"].class #=>多分Array
+      # puts resNajsoned["entities"].length #=>配列長が出てくる(名刺によって長さは微妙)
+      # puts resNajsoned["entities"][0] #配列の要素
+      # puts resNajsoned["entities"][0].class #Hash
+      # puts resNajsoned["entities"][7]["type"] #=>私の名刺の場合はここがPHONE_NUMBER
+      # puts resNajsoned["entities"][7]["name"] #=>私の名刺の場合ここは電話番号(記載そのまま)
+      # puts resNajsoned["entities"][7]["mentions"].first["text"]["beginOffset"]#=>私の名刺の場合ここは電話番号があるところの文字位置
+      # puts resNajsoned["entities"][7]["salience"].to_f #=>私の名刺の場合、電話番号の顕著性→ 0だけど、ほかの値の場合0より大きくなる
+      # puts "----loop----"
+      tmpResultPerson=[]
+      tmpResultOrg=nil
+      tmpResultPhone=[]
+      tmpResultAddress=[]
+      resNajsoned["entities"].each_with_index do |arr,index|
+        if(arr["type"]=="PERSON")
+          # 以下デバッグ用表示部分です。NLAPIの結果からtypeがPERSONになっている配列要素をtmpにpushします。(ORGANIZATIONは別)
+          # 他の部分でも確認できます。salienceは.to_fにしないと0か1に丸まってしまうので注意
+          # puts "resNajsoned[entities][#{index}][type] = "
+          # puts arr["type"]
+          # puts "resNajsoned['entities'][#{index}][name] = "
+          # puts arr["name"]
+          # puts "---salience--"
+          # puts arr["salience"].to_f
+          tmpResultPerson << arr
+        end
+        if(arr["type"]=="PHONE_NUMBER")
+          tmpResultPhone << arr
+        end
+        if(arr["type"]=="ADDRESS")
+          tmpResultAddress << arr
+        end
+        if(arr["type"]=="ORGANIZATION")
+          if(tmpResultOrg == nil)
+            tmpResultOrg = arr
+          elsif(tmpResultOrg["salience"] > arr["salience"])
+            tmpResultOrg = arr
+          end
+        end
+      end
+      # ビューに表示するための変数です。(jbuilderで渡します)
+      @nlResultPerson=nil
+      @nlResultOrg=nil
+      @nlResultPhone=nil
+      @nlResultAddress=nil
+      if tmpResultPhone.length > 0
+        # puts "tmpResultPhone.first => "
+        # puts tmpResultPhone.first["name"]
+        @nlResultPhone=tmpResultPhone.first["name"]
+      end
+      if tmpResultAddress.length > 0
+        @nlResultAddress=tmpResultAddress.first["name"]
+      end
+      if tmpResultOrg !=nil
+        @nlResultOrg=tmpResultOrg["name"]
+      end
+      if tmpResultPerson.length > 0
+        @nlResultPerson=tmpResultPerson.first["name"]
+      end
+      
   end
   def createdata
     params[:apiresulthash] = Card.createApiresulthash(params[:apiresulttext])
