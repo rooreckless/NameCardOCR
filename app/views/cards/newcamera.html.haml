@@ -61,9 +61,9 @@
                         #createbeforesearchresults.drawCanvas__after__createbeforesearchresults.newcamera__step3__warning
                       .newcamera__step4
                         %p#drawCanvas__after--message.drawCanvas__after
-                          %span.drawCanvas__after--red 下の欄に書き写してください。
+                          %span.drawCanvas__after--red 下の欄に追記・修正をしてください。
                           この内容で、「名刺データを作成」ボタンを押して保存します。
-                          %span.drawCanvas__after--red (すでにOCRで入力されている内容も編集可能です。)
+                          %span.drawCanvas__after--red (すでにOCRによって入力されている内容も編集可能です。)
                         = form_with model: @card ,class:"drawCanvas__after drawCanvas__after__form",id:"#",local: true,url: {controller: 'cards', action: 'createdata' } do |f|
                           .drawCanvas__after.drawCanvas__after__form__row
                             = f.label :名前,class:"drawCanvas__after drawCanvas__after__form--label"

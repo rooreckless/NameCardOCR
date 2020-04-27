@@ -177,6 +177,8 @@ class CardsController < ApplicationController
         end
       end
       # ビューに表示するための変数です。(jbuilderで渡します)
+      # 現状はそれぞのtypeのうち、最初配列要素の内容が入るようにしています。
+      # ORGANIZATIONだけはsalienceの値が最も低いものだけを入れています。
       @nlResultPerson=nil
       @nlResultOrg=nil
       @nlResultPhone=nil
