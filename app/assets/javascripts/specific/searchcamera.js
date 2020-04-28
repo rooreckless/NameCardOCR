@@ -81,7 +81,12 @@ function buildsearchresultHTML(cards_inGroup,cards_inUser){
 }
 
 
-
+// ページ内スクロールメソッド
+function pagescroll(target){
+  var top_pos = target.offset().top;
+  console.log(target);
+  $(".searchcamera_body").animate({ scrollTop: top_pos }, 'slow','swing');
+}
 // 撮影ボタンが押されたら「<canvas id="capture_image">」に映像のコマ画像を表示します。
 function go_step2() {
 
@@ -105,7 +110,7 @@ function rebert_step1(){
   $('#searchresults').empty();
 }
 function drawCanvas(){
-  // 使用する写真が決定したときの挙動
+  // 使用する写真が決定して検索するときの挙動
   var canvas = $('#capture_image').get(0);
   if (canvas.getContext){ // 未サポートブラウザでの実行を抑止
     var ctx = canvas.getContext('2d');
@@ -116,7 +121,6 @@ function drawCanvas(){
 
   var splited_canvasbase64 = canvasbase64.split(",");
  
-  console.log("drawCanvas");
   // ajax通信開始(コントローラ→api→返答をもらいます)
   $.ajax({
     url: '/cards/createajax',
@@ -138,8 +142,9 @@ function drawCanvas(){
       .done(function(data){
         // searchajax.json.jbuilderより、data.cardsが検索結果のカード達になります。
         var html=buildsearchresultHTML(data.cards_inGroup,data.cards_inUser)
-        $('.searchresults').empty();
-        $('.searchresults').append(html);
+        $('#searchresults').empty();
+        $('#searchresults').append(html);
+        pagescroll($('#searchresults'));
       })
       .fail(function(){
         alert("error search");

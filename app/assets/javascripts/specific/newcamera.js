@@ -111,11 +111,20 @@ function rebert_step1(){
 function pagereload(){
   location.reload();
 }
+// ページ内スクロールメソッド
+function pagescroll(target){
+  var top_pos = target.offset().top;
+  $(".newcamera_body").animate({ scrollTop: top_pos }, 'slow','swing');
+}
 // ステップ4(登録フォームの表示)へ移行するメソッド。
 function go_step4(){
   $('.newcamera__step3__warning').css('display','none');
   $('.newcamera__step4').css('display','block');
-  
+  // 
+  pagescroll($('#drawCanvas__after--message'));
+  // var top_pos = $('#drawCanvas__after--message').offset().top;
+  // console.log(top_pos);
+  // $(".newcamera_body").animate({ scrollTop: top_pos }, 'slow','swing');
 }
 // 使用する写真が決定したときの挙動(ステップ2からステップ3へ移行)
 function drawCanvas(){
@@ -168,6 +177,7 @@ function drawCanvas(){
         $('#createbeforesearchresults').empty();
         $('#createbeforesearchresults').append(html);
         $('#createbeforesearchresults').css('display','block');
+        pagescroll($('#createbeforesearchresults'));
       }else{
         // 重複していないなら、入力用フォームを表示します。
         go_step4();
